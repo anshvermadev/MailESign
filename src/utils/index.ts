@@ -1,4 +1,4 @@
-import { Signature, TemplateType } from './types';
+import { Signature, TemplateType } from '../types';
 
 export const PRESET_AVATARS = [
   {

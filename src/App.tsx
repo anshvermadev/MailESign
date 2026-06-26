@@ -6,13 +6,13 @@ import { Signature, UserProfile, TemplateType } from './types';
 import { getStoredSignatures, setStoredSignatures, INITIAL_SIGNATURES } from './utils';
 
 // Views
-import LandingPage from './components/LandingPage';
-import AuthScreen from './components/AuthScreen';
-import Dashboard from './components/Dashboard';
-import TemplatePicker from './components/TemplatePicker';
-import SignatureEditor from './components/SignatureEditor';
-import InstallSteps from './components/InstallSteps';
-import AccountSettings from './components/AccountSettings';
+import LandingPage from './pages/LandingPage';
+import AuthScreen from './pages/AuthScreen';
+import Dashboard from './pages/Dashboard';
+import TemplatePicker from './pages/TemplatePicker';
+import SignatureEditor from './pages/SignatureEditor';
+import InstallSteps from './pages/InstallSteps';
+import AccountSettings from './pages/AccountSettings';
 
 type ActiveView = 'landing' | 'auth' | 'dashboard' | 'templates' | 'editor' | 'install-steps' | 'account-settings';
 

@@ -4,7 +4,7 @@ import { Save, Copy, Check, Sparkles, Image, Globe, Mail, Phone, User, Landmark,
 import { Signature, TemplateType } from '../types';
 import { PRESET_AVATARS, generateSignatureHTML } from '../utils';
 import Cropper from 'react-easy-crop';
-import getCroppedImg from '../cropUtils';
+import getCroppedImg from '../utils/crop';
 
 interface SignatureEditorProps {
   initialSignature?: Signature | null;
