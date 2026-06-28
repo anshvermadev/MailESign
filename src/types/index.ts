@@ -23,6 +23,7 @@ export interface Signature {
     facebook?: string;
     youtube?: string;
   };
+  animatedIcons?: boolean;
   templateId: TemplateType;
   status: 'Installed' | 'Draft';
   updatedAt: string;

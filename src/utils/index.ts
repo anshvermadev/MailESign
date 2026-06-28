@@ -222,24 +222,28 @@ export function generateSignatureHTML(sig: Signature): string {
     case 'premium-boxed': {
       // Build social icons row - includes website as first icon
       const socialIconCells: string[] = [];
+      const isAnimated = sig.animatedIcons;
+      
+      const baseUrl = 'https://img.icons8.com/color/48/000000';
+      const iconClass = isAnimated ? 'sicon anim-pulse' : 'sicon';
       
       if (sig.website) {
-        socialIconCells.push(`<td class="layout-web-icon sicon" style="padding:0 4px 0 0"><a href="${formatUrl(sig.website)}" target="_blank"><img alt="" src="https://image.customesignature.com/images/static/images/social/static/1/web-icon.png" width="32"></a></td>`);
+        socialIconCells.push(`<td class="layout-web-icon ${iconClass}" style="padding:0 4px 0 0"><a href="${formatUrl(sig.website)}" target="_blank"><img alt="Website" src="${baseUrl}/domain--v1.png" width="32" style="border-radius: 4px; display: block;"></a></td>`);
       }
       if (sig.socials.instagram) {
-        socialIconCells.push(`<td class="layout-insta-icon sicon" style="padding:0 4px 0 0"><a href="${formatUrl(sig.socials.instagram)}" target="_blank"><img alt="" src="https://image.customesignature.com/images/static/images/social/static/1/insta-icon.png" width="32"></a></td>`);
+        socialIconCells.push(`<td class="layout-insta-icon ${iconClass}" style="padding:0 4px 0 0"><a href="${formatUrl(sig.socials.instagram)}" target="_blank"><img alt="Instagram" src="${baseUrl}/instagram-new--v1.png" width="32" style="border-radius: 4px; display: block;"></a></td>`);
       }
       if (sig.socials.linkedin) {
-        socialIconCells.push(`<td class="layout-linkedin-icon sicon" style="padding:0 4px 0 0"><a href="${formatUrl(sig.socials.linkedin)}" target="_blank"><img alt="" src="https://image.customesignature.com/images/static/images/social/static/1/linkedin-icon.png" width="32"></a></td>`);
+        socialIconCells.push(`<td class="layout-linkedin-icon ${iconClass}" style="padding:0 4px 0 0"><a href="${formatUrl(sig.socials.linkedin)}" target="_blank"><img alt="LinkedIn" src="${baseUrl}/linkedin.png" width="32" style="border-radius: 4px; display: block;"></a></td>`);
       }
       if (sig.socials.facebook) {
-        socialIconCells.push(`<td class="layout-facebook-icon sicon" style="padding:0 4px 0 0"><a href="${formatUrl(sig.socials.facebook)}" target="_blank"><img alt="" src="https://image.customesignature.com/images/static/images/social/static/1/facebook-icon.png" width="32"></a></td>`);
+        socialIconCells.push(`<td class="layout-facebook-icon ${iconClass}" style="padding:0 4px 0 0"><a href="${formatUrl(sig.socials.facebook)}" target="_blank"><img alt="Facebook" src="${baseUrl}/facebook-new.png" width="32" style="border-radius: 4px; display: block;"></a></td>`);
       }
       if (sig.socials.youtube) {
-        socialIconCells.push(`<td class="layout-youtube-icon sicon" style="padding:0 4px 0 0"><a href="${formatUrl(sig.socials.youtube)}" target="_blank"><img alt="" src="https://image.customesignature.com/images/static/images/social/static/1/youtube-icon.png" width="32"></a></td>`);
+        socialIconCells.push(`<td class="layout-youtube-icon ${iconClass}" style="padding:0 4px 0 0"><a href="${formatUrl(sig.socials.youtube)}" target="_blank"><img alt="YouTube" src="${baseUrl}/youtube-play.png" width="32" style="border-radius: 4px; display: block;"></a></td>`);
       }
       if (sig.socials.twitter) {
-        socialIconCells.push(`<td class="layout-twitter-icon sicon" style="padding:0 4px 0 0"><a href="${formatUrl(sig.socials.twitter)}" target="_blank"><img alt="" src="https://image.customesignature.com/images/static/images/social/static/1/twitter-icon.png" width="32"></a></td>`);
+        socialIconCells.push(`<td class="layout-twitter-icon ${iconClass}" style="padding:0 4px 0 0"><a href="${formatUrl(sig.socials.twitter)}" target="_blank"><img alt="Twitter" src="${baseUrl}/twitter--v1.png" width="32" style="border-radius: 4px; display: block;"></a></td>`);
       }
 
       const hasSocialIcons = socialIconCells.length > 0;
@@ -259,7 +263,19 @@ export function generateSignatureHTML(sig: Signature): string {
         rightCellHTML = `<td align="left" valign="middle" class="layout_divider" style="border-collapse:collapse; border-left-width:1px; border-left-color:#e2e2e2; border-left-style: solid; padding:0 0 0 15px;"><table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:separate;"><tbody><tr><td style="border-collapse: collapse; padding-bottom:10px;"><table width="100%" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td style="border-collapse: collapse;"> <span class="layout_company" style="font-weight:bold; font-style:normal; color:#000000; font-size:12px;">${sig.companyName}</span></td></tr><tr><td style="border-collapse: collapse;" nowrap="">  <a href="tel:${sig.phone.replace(/[^+\d]/g, '')}" class="layout_phone_label1 label" style="text-decoration: none;font-weight:bold; font-style:normal; color:#000000; font-size:12px;"><span class="layout_phone1" style="font-weight:normal; font-style:normal; color:#000000; font-size:12px;">${sig.phone}</span></a></td></tr><tr><td style="border-collapse: collapse;" nowrap="">  <a href="mailto:${sig.email}" class="layout_email_label1 label" style="text-decoration: none;font-weight:bold; font-style:normal; color:#000000; font-size:12px;"><span class="layout_email1" style="font-weight:normal; font-style:normal; color:#000000; font-size:12px;">${sig.email}</span></a></td></tr></tbody></table></td></tr>${socialsRowHTML}<tr><td style="border-collapse:collapse;"><table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;"><tbody><tr></tr></tbody></table></td></tr></tbody></table></td>`;
       }
 
-      return `<table class="signature_tbl" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-size:10px;font-family:Inter,sans-serif;"><tbody><tr><td class="layout_maintd" style="line-height:16px;font-family:Inter, sans-serif; border-collapse:collapse;"><table cellpadding="0" cellspacing="0" style="border-collapse: separate"><tbody><tr><td valign="top" align="left" class="layout_border" style="border-collapse:collapse; padding:25px;border-width: 1px; border-color:#e2e2e2; border-style: solid;border-radius:5px;"><table width="100%" border="0" cellspacing="0" cellpadding="0"><tbody><tr>${leftCellHTML}${rightCellHTML}</tr></tbody></table></td></tr> <tr><td align="left" valign="top"><table border="0" cellspacing="0" cellpadding="0"><tbody><tr>    </tr></tbody></table></td></tr><tr></tr></tbody></table></td></tr></tbody></table>`;
+      let styleBlock = '';
+      if (isAnimated) {
+        styleBlock = `<style>
+@keyframes sicon-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+.anim-pulse { animation: sicon-pulse 2s ease-in-out infinite; display: inline-block; }
+</style>`;
+      }
+
+      return `${styleBlock}<table class="signature_tbl" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-size:10px;font-family:Inter,sans-serif;"><tbody><tr><td class="layout_maintd" style="line-height:16px;font-family:Inter, sans-serif; border-collapse:collapse;"><table cellpadding="0" cellspacing="0" style="border-collapse: separate"><tbody><tr><td valign="top" align="left" class="layout_border" style="border-collapse:collapse; padding:25px;border-width: 1px; border-color:#e2e2e2; border-style: solid;border-radius:5px;"><table width="100%" border="0" cellspacing="0" cellpadding="0"><tbody><tr>${leftCellHTML}${rightCellHTML}</tr></tbody></table></td></tr> <tr><td align="left" valign="top"><table border="0" cellspacing="0" cellpadding="0"><tbody><tr>    </tr></tbody></table></td></tr><tr></tr></tbody></table></td></tr></tbody></table>`;
     }
 
     default:

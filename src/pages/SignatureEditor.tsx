@@ -41,6 +41,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
       instagram: 'instagram.com/johndoe',
     },
     templateId: selectedTemplateId || 'premium-boxed',
+    animatedIcons: false,
     status: 'Draft',
     updatedAt: new Date().toISOString().split('T')[0],
     clicksCount: 0,
@@ -408,6 +409,19 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                       onChange={(e) => handleSocialChange('youtube', e.target.value)}
                       className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-none bg-[#0A0A0A] text-white focus:bg-[#111] focus:outline-none"
                     />
+                  </div>
+                  <div className="col-span-1 sm:col-span-2 pt-2">
+                    <label className="flex items-center gap-2 cursor-pointer group w-max">
+                      <input
+                        type="checkbox"
+                        checked={sig.animatedIcons || false}
+                        onChange={(e) => handleFieldChange('animatedIcons', e.target.checked)}
+                        className="w-3.5 h-3.5 accent-[#FF3E00] bg-transparent border border-white/20 rounded-none cursor-pointer"
+                      />
+                      <span className="text-[10px] font-mono text-white/60 uppercase group-hover:text-white transition-colors">
+                        Use Animated Social Icons (GIFs)
+                      </span>
+                    </label>
                   </div>
                 </div>
               </div>
