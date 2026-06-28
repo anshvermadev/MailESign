@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Plus, Edit3, Trash2, Code, Copy, CheckCircle, ExternalLink, Activity, LayoutGrid, Check } from 'lucide-react';
 import { Signature } from '../types';
 import { generateSignatureHTML } from '../utils';
+import SignaturePreview from '../components/SignaturePreview';
 
 interface DashboardProps {
   signatures: Signature[];
@@ -116,12 +117,7 @@ export default function Dashboard({ signatures, onEdit, onDelete, onNavigate }: 
                   </div>
 
                   {/* Body preview of actual inline HTML signature */}
-                  <div className="p-6 overflow-x-auto min-h-[140px] flex items-center bg-white">
-                    <div 
-                      className="w-full scale-90 origin-left max-w-full"
-                      dangerouslySetInnerHTML={{ __html: generateSignatureHTML(sig) }} 
-                    />
-                  </div>
+                  <SignaturePreview signature={sig} />
 
                   {/* Bottom bar with action elements */}
                   <div className="bg-[#0A0A0A] border-t border-white/5 px-5 py-4 flex flex-wrap gap-2 items-center justify-between">

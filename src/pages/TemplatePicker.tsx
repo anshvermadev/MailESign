@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { TemplateType } from '../types';
-import { generateSignatureHTML } from '../utils';
+import SignaturePreview from '../components/SignaturePreview';
 
 interface TemplatePickerProps {
   onSelect: (templateId: TemplateType) => void;
@@ -49,13 +49,8 @@ export default function TemplatePicker({ onSelect, onNavigate }: TemplatePickerP
           >
             {/* Visual mockup block showing live rendered signature */}
             <div className="bg-[#151515] border-b border-white/5 p-6 flex items-center justify-center">
-              <div className="w-full bg-white p-5 rounded-sm border border-[#e5e2e1] shadow-sm max-w-[480px]">
-                <div
-                  className="pointer-events-none"
-                  dangerouslySetInnerHTML={{
-                    __html: generateSignatureHTML(PREVIEW_SIGNATURE)
-                  }}
-                />
+              <div className="w-full max-w-[480px] pointer-events-none">
+                <SignaturePreview signature={PREVIEW_SIGNATURE} className="rounded-sm border border-[#e5e2e1] shadow-sm" />
               </div>
             </div>
 

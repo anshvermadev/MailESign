@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Save, Copy, Check, Sparkles, Image, Globe, Mail, Phone, User, Landmark, ShieldAlert, ArrowLeft, Plus, X } from 'lucide-react';
 import { Signature, TemplateType } from '../types';
-import { PRESET_AVATARS, generateSignatureHTML } from '../utils';
+import { generateSignatureHTML } from '../utils';
 import Cropper from 'react-easy-crop';
 import getCroppedImg from '../utils/crop';
 
@@ -34,7 +34,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
     email: 'johndoe@lumina.co',
     website: 'www.lumina.co',
     brandColor: '#FF3E00',
-    logoUrl: PRESET_AVATARS[0].url,
+    logoUrl: '',
     socials: {
       linkedin: 'linkedin.com/in/johndoe',
       twitter: 'twitter.com/johndoe',

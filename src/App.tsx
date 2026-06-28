@@ -48,6 +48,7 @@ export default function App() {
     }
 
     // Load custom signatures from local storage
+    localStorage.removeItem('inkstamp_signatures');
     const storedSignatures = getStoredSignatures();
     setSignatures(storedSignatures);
   }, []);

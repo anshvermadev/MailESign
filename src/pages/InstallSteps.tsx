@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Mail, Check, Copy, AlertCircle, Info, Settings, Layout, ExternalLink, HelpCircle } from 'lucide-react';
 import { Signature } from '../types';
 import { generateSignatureHTML } from '../utils';
+import SignaturePreview from '../components/SignaturePreview';
 
 interface InstallStepsProps {
   signatures: Signature[];
@@ -101,12 +102,7 @@ export default function InstallSteps({ signatures }: InstallStepsProps) {
                 {/* Live Minimal Preview Container */}
                 <div className="border border-white/5 p-4 rounded-none bg-[#0A0A0A] space-y-2 overflow-x-auto">
                   <div className="text-[9px] font-mono text-white/30 uppercase tracking-wider">Preview Signature:</div>
-                  <div className="bg-white p-2 rounded-none">
-                    <div 
-                      className="scale-90 origin-top-left"
-                      dangerouslySetInnerHTML={{ __html: generateSignatureHTML(selectedSig) }} 
-                    />
-                  </div>
+                  <SignaturePreview signature={selectedSig} className="!p-4 !min-h-[100px] border border-white/10" />
                 </div>
 
                 {/* Premium Clipboard copy actions */}

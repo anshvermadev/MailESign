@@ -1,27 +1,5 @@
 import { Signature, TemplateType } from '../types';
 
-export const PRESET_AVATARS = [
-  {
-    id: 'avatar-1',
-    name: 'Professional Male',
-    url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=250&h=250',
-  },
-  {
-    id: 'avatar-2',
-    name: 'Professional Female',
-    url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=250&h=250',
-  },
-  {
-    id: 'avatar-3',
-    name: 'Modern Executive',
-    url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=250&h=250',
-  },
-  {
-    id: 'avatar-4',
-    name: 'Creative Specialist',
-    url: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=250&h=250',
-  },
-];
 
 export const INITIAL_SIGNATURES: Signature[] = [
   {
@@ -39,6 +17,7 @@ export const INITIAL_SIGNATURES: Signature[] = [
       linkedin: 'linkedin.com/in/johndoe',
       instagram: 'instagram.com/johndoe',
       facebook: 'facebook.com/johndoe',
+      youtube: 'youtube.com/johndoe',
     },
     templateId: 'premium-boxed',
     status: 'Installed',
