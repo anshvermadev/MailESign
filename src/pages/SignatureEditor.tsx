@@ -14,7 +14,7 @@ interface SignatureEditorProps {
 }
 
 const COLOR_PALETTE = [
-  { name: 'Neon Orange', hex: '#FF3E00' },
+  { name: 'Neon Orange', hex: '#b04090' },
   { name: 'Acid Green', hex: '#22C55E' },
   { name: 'Electric Blue', hex: '#3B82F6' },
   { name: 'Vibrant Amber', hex: '#d97706' },
@@ -33,7 +33,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
     phone: '+1 (555) 304-2190',
     email: 'johndoe@lumina.co',
     website: 'www.lumina.co',
-    brandColor: '#FF3E00',
+    brandColor: '#b04090',
     logoUrl: '',
     socials: {
       linkedin: 'linkedin.com/in/johndoe',
@@ -165,7 +165,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
   };
 
   return (
-    <div className="bg-[#0A0A0A] min-h-screen py-12 px-6 text-[#F5F5F5]">
+    <div className="bg-[#0a0a0f] min-h-screen py-12 px-6 text-[#F5F5F5]">
       <div className="max-w-7xl mx-auto space-y-8">
         
         {/* Editor Top Bar with Return Navigation */}
@@ -174,12 +174,12 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
             <button
               id="editor-btn-back"
               onClick={() => onNavigate('dashboard')}
-              className="p-2 border border-white/10 bg-[#111] hover:bg-white/5 rounded-none transition-all text-white/60 hover:text-white"
+              className="p-2 border border-white/10 bg-[#111118] hover:bg-white/5 rounded-2xl transition-all text-white/60 hover:text-white"
             >
               <ArrowLeft className="w-4 h-4" />
             </button>
             <div>
-              <div className="text-[10px] font-mono text-[#FF3E00] uppercase tracking-widest font-black">
+              <div className="text-[10px] font-mono text-[#b04090] uppercase tracking-widest font-black">
                 FORMAT: {sig.templateId.replace('-', ' ')}
               </div>
               <h1 className="text-2xl font-sans font-black uppercase text-white tracking-tight">
@@ -193,7 +193,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
               id="editor-btn-copy"
               type="button"
               onClick={handleCopyHTML}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-[#111] hover:bg-white/5 border border-white/10 text-white text-xs font-black uppercase tracking-widest rounded-none transition-all"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-[#111118] hover:bg-white/5 border border-white/10 text-white text-xs font-black uppercase tracking-widest rounded-2xl transition-all"
             >
               {copied ? (
                 <>
@@ -202,7 +202,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                 </>
               ) : (
                 <>
-                  <Copy className="w-3.5 h-3.5 text-[#FF3E00]" />
+                  <Copy className="w-3.5 h-3.5 text-[#b04090]" />
                   <span>Copy HTML Code</span>
                 </>
               )}
@@ -210,7 +210,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
             <button
               id="editor-btn-save"
               onClick={handleFormSubmit}
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#FF3E00] hover:bg-[#e63800] text-black text-xs font-black uppercase tracking-widest rounded-none transition-all shadow-sm"
+              className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#b04090] hover:bg-[#903070] text-black text-xs font-black uppercase tracking-widest rounded-2xl transition-all shadow-sm"
             >
               <Save className="w-3.5 h-3.5" />
               <span>Save Footer</span>
@@ -220,7 +220,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
 
         {/* Success Alert Banner */}
         {saveSuccess && (
-          <div className="bg-green-950/20 border border-green-900/50 text-green-400 text-xs rounded-none p-4 flex items-center gap-2">
+          <div className="bg-green-950/20 border border-green-900/50 text-green-400 text-xs rounded-2xl p-4 flex items-center gap-2">
             <Check className="w-4 h-4 text-green-400 font-bold" />
             <span>Success! The email signature profile was securely synchronized to your local repository. Navigating to Dashboard...</span>
           </div>
@@ -229,7 +229,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           
           {/* LEFT SIDEBAR: CONFIGURATION CONTROLS */}
-          <form onSubmit={handleFormSubmit} className="lg:col-span-6 space-y-8 bg-[#111] border border-white/10 rounded-none p-6 sm:p-8">
+          <form onSubmit={handleFormSubmit} className="lg:col-span-6 space-y-8 bg-[#111118] border border-white/10 rounded-2xl p-6 sm:p-8">
             
             {/* Signature Properties Header */}
             <div className="space-y-1">
@@ -241,13 +241,13 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                 value={sig.name}
                 onChange={(e) => handleFieldChange('name', e.target.value)}
                 placeholder="E.g. Primary Corporate"
-                className="w-full px-4 py-2 border border-white/10 bg-[#0A0A0A] text-white focus:bg-[#111] text-sm rounded-none focus:outline-none focus:ring-1 focus:ring-[#FF3E00] focus:border-[#FF3E00] placeholder:text-white/20 transition-all"
+                className="w-full px-4 py-2 border border-white/10 bg-[#0a0a0f] text-white focus:bg-[#111118] text-sm rounded-2xl focus:outline-none focus:ring-1 focus:ring-[#b04090] focus:border-[#b04090] placeholder:text-white/20 transition-all"
               />
             </div>
 
             {/* Section 1: Personal Details */}
             <div className="space-y-4">
-              <h3 className="text-xs font-mono text-[#FF3E00] uppercase tracking-widest font-bold">Personal Details</h3>
+              <h3 className="text-xs font-mono text-[#b04090] uppercase tracking-widest font-bold">Personal Details</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-[10px] font-mono text-white/40 uppercase">Full Name</label>
@@ -261,7 +261,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                       required
                       value={sig.fullName}
                       onChange={(e) => handleFieldChange('fullName', e.target.value)}
-                      className="w-full pl-9 pr-4 py-2 border border-white/10 text-xs rounded-none bg-[#0A0A0A] text-white focus:bg-[#111] focus:outline-none focus:ring-1 focus:ring-[#FF3E00] focus:border-[#FF3E00] placeholder:text-white/20 transition-all"
+                      className="w-full pl-9 pr-4 py-2 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none focus:ring-1 focus:ring-[#b04090] focus:border-[#b04090] placeholder:text-white/20 transition-all"
                     />
                   </div>
                 </div>
@@ -277,7 +277,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                       required
                       value={sig.jobTitle}
                       onChange={(e) => handleFieldChange('jobTitle', e.target.value)}
-                      className="w-full pl-9 pr-4 py-2 border border-white/10 text-xs rounded-none bg-[#0A0A0A] text-white focus:bg-[#111] focus:outline-none focus:ring-1 focus:ring-[#FF3E00] focus:border-[#FF3E00] placeholder:text-white/20 transition-all"
+                      className="w-full pl-9 pr-4 py-2 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none focus:ring-1 focus:ring-[#b04090] focus:border-[#b04090] placeholder:text-white/20 transition-all"
                     />
                   </div>
                 </div>
@@ -291,14 +291,14 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                   required
                   value={sig.companyName}
                   onChange={(e) => handleFieldChange('companyName', e.target.value)}
-                  className="w-full px-3 py-2 border border-white/10 text-xs rounded-none bg-[#0A0A0A] text-white focus:bg-[#111] focus:outline-none focus:ring-1 focus:ring-[#FF3E00] focus:border-[#FF3E00] placeholder:text-white/20 transition-all"
+                  className="w-full px-3 py-2 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none focus:ring-1 focus:ring-[#b04090] focus:border-[#b04090] placeholder:text-white/20 transition-all"
                 />
               </div>
             </div>
 
             {/* Section 2: Contact Information */}
             <div className="space-y-4">
-              <h3 className="text-xs font-mono text-[#FF3E00] uppercase tracking-widest font-bold">Contact Values</h3>
+              <h3 className="text-xs font-mono text-[#b04090] uppercase tracking-widest font-bold">Contact Values</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-[10px] font-mono text-white/40 uppercase">Phone Number</label>
@@ -312,7 +312,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                       required
                       value={sig.phone}
                       onChange={(e) => handleFieldChange('phone', e.target.value)}
-                      className="w-full pl-9 pr-4 py-2 border border-white/10 text-xs rounded-none bg-[#0A0A0A] text-white focus:bg-[#111] focus:outline-none focus:ring-1 focus:ring-[#FF3E00] focus:border-[#FF3E00] placeholder:text-white/20 transition-all"
+                      className="w-full pl-9 pr-4 py-2 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none focus:ring-1 focus:ring-[#b04090] focus:border-[#b04090] placeholder:text-white/20 transition-all"
                     />
                   </div>
                 </div>
@@ -328,7 +328,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                       required
                       value={sig.email}
                       onChange={(e) => handleFieldChange('email', e.target.value)}
-                      className="w-full pl-9 pr-4 py-2 border border-white/10 text-xs rounded-none bg-[#0A0A0A] text-white focus:bg-[#111] focus:outline-none focus:ring-1 focus:ring-[#FF3E00] focus:border-[#FF3E00] placeholder:text-white/20 transition-all"
+                      className="w-full pl-9 pr-4 py-2 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none focus:ring-1 focus:ring-[#b04090] focus:border-[#b04090] placeholder:text-white/20 transition-all"
                     />
                   </div>
                 </div>
@@ -346,7 +346,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                     required
                     value={sig.website}
                     onChange={(e) => handleFieldChange('website', e.target.value)}
-                    className="w-full pl-9 pr-4 py-2 border border-white/10 text-xs rounded-none bg-[#0A0A0A] text-white focus:bg-[#111] focus:outline-none focus:ring-1 focus:ring-[#FF3E00] focus:border-[#FF3E00] placeholder:text-white/20 transition-all"
+                    className="w-full pl-9 pr-4 py-2 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none focus:ring-1 focus:ring-[#b04090] focus:border-[#b04090] placeholder:text-white/20 transition-all"
                   />
                 </div>
               </div>
@@ -363,7 +363,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                       placeholder="linkedin.com/..."
                       value={sig.socials.linkedin || ''}
                       onChange={(e) => handleSocialChange('linkedin', e.target.value)}
-                      className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-none bg-[#0A0A0A] text-white focus:bg-[#111] focus:outline-none"
+                      className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none"
                     />
                   </div>
                   <div className="flex items-center gap-2">
@@ -374,7 +374,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                       placeholder="twitter.com/..."
                       value={sig.socials.twitter || ''}
                       onChange={(e) => handleSocialChange('twitter', e.target.value)}
-                      className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-none bg-[#0A0A0A] text-white focus:bg-[#111] focus:outline-none"
+                      className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none"
                     />
                   </div>
                   <div className="flex items-center gap-2">
@@ -385,7 +385,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                       placeholder="instagram.com/..."
                       value={sig.socials.instagram || ''}
                       onChange={(e) => handleSocialChange('instagram', e.target.value)}
-                      className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-none bg-[#0A0A0A] text-white focus:bg-[#111] focus:outline-none"
+                      className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none"
                     />
                   </div>
                   <div className="flex items-center gap-2">
@@ -396,7 +396,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                       placeholder="facebook.com/..."
                       value={sig.socials.facebook || ''}
                       onChange={(e) => handleSocialChange('facebook', e.target.value)}
-                      className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-none bg-[#0A0A0A] text-white focus:bg-[#111] focus:outline-none"
+                      className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none"
                     />
                   </div>
                   <div className="flex items-center gap-2">
@@ -407,7 +407,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                       placeholder="youtube.com/..."
                       value={sig.socials.youtube || ''}
                       onChange={(e) => handleSocialChange('youtube', e.target.value)}
-                      className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-none bg-[#0A0A0A] text-white focus:bg-[#111] focus:outline-none"
+                      className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none"
                     />
                   </div>
                   <div className="col-span-1 sm:col-span-2 pt-2">
@@ -416,7 +416,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                         type="checkbox"
                         checked={sig.animatedIcons || false}
                         onChange={(e) => handleFieldChange('animatedIcons', e.target.checked)}
-                        className="w-3.5 h-3.5 accent-[#FF3E00] bg-transparent border border-white/20 rounded-none cursor-pointer"
+                        className="w-3.5 h-3.5 accent-[#b04090] bg-transparent border border-white/20 rounded-2xl cursor-pointer"
                       />
                       <span className="text-[10px] font-mono text-white/60 uppercase group-hover:text-white transition-colors">
                         Use Animated Social Icons (GIFs)
@@ -429,13 +429,13 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
 
             {/* Section 3: Brand Assets */}
             <div className="space-y-5">
-              <h3 className="text-xs font-mono text-[#FF3E00] uppercase tracking-widest font-bold">Brand Assets</h3>
+              <h3 className="text-xs font-mono text-[#b04090] uppercase tracking-widest font-bold">Brand Assets</h3>
               
               {/* Custom Color Selector */}
               <div className="space-y-2">
                 <div className="flex justify-between items-center text-[10px] font-mono text-white/40 uppercase">
                   <span>Accent Accent Color</span>
-                  <span className="text-[#FF3E00] font-bold">{sig.brandColor}</span>
+                  <span className="text-[#b04090] font-bold">{sig.brandColor}</span>
                 </div>
                 
                 <div className="flex flex-wrap items-center gap-3">
@@ -458,13 +458,13 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                   <div className="h-6 w-[1px] bg-white/10" />
 
                   {/* Manual color picker */}
-                  <div className="flex items-center gap-1.5 bg-[#0A0A0A] border border-white/10 px-2 py-1 rounded-none">
+                  <div className="flex items-center gap-1.5 bg-[#0a0a0f] border border-white/10 px-2 py-1 rounded-2xl">
                     <input
                       id="editor-color-picker"
                       type="color"
                       value={sig.brandColor}
                       onChange={(e) => handleFieldChange('brandColor', e.target.value)}
-                      className="w-5 h-5 border-0 rounded-none cursor-pointer p-0 bg-transparent"
+                      className="w-5 h-5 border-0 rounded-2xl cursor-pointer p-0 bg-transparent"
                     />
                     <input
                       id="editor-color-picker-text"
@@ -486,14 +486,14 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                 <label
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={handleLogoDrop}
-                  className="border-2 border-dashed border-white/10 rounded-none p-5 text-center bg-[#0A0A0A] hover:bg-white/5 transition-all cursor-pointer relative block"
+                  className="border-2 border-dashed border-white/10 rounded-2xl p-5 text-center bg-[#0a0a0f] hover:bg-white/5 transition-all cursor-pointer relative block"
                 >
                   <input type="file" accept="image/*" className="hidden" onChange={handleFileInputChange} disabled={isUploading} />
                   <div className="flex flex-col items-center gap-1.5">
                     {isUploading ? (
-                      <div className="w-6 h-6 border-2 border-[#FF3E00] border-t-transparent rounded-full animate-spin"></div>
+                      <div className="w-6 h-6 border-2 border-[#b04090] border-t-transparent rounded-full animate-spin"></div>
                     ) : (
-                      <Image className="w-6 h-6 text-[#FF3E00]/60" />
+                      <Image className="w-6 h-6 text-[#b04090]/60" />
                     )}
                     <div className="text-xs font-black uppercase tracking-wider text-white">
                       {isUploading ? 'Uploading...' : 'Drag and drop or click to upload'}
@@ -508,7 +508,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                     <button
                       type="button"
                       onClick={() => handleFieldChange('logoUrl', '')}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#111] hover:bg-white/5 border border-white/10 text-white/60 hover:text-[#FF3E00] text-xs font-bold uppercase tracking-widest rounded-none transition-all"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#111118] hover:bg-white/5 border border-white/10 text-white/60 hover:text-[#b04090] text-xs font-bold uppercase tracking-widest rounded-2xl transition-all"
                     >
                       <X className="w-3.5 h-3.5" />
                       <span>Remove Photo</span>
@@ -524,16 +524,16 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
 
           {/* RIGHT SIDEBAR: EMAIL WORKSPACE LIVE PREVIEW */}
           <div className="lg:col-span-6 space-y-6">
-            <div className="bg-[#111] rounded-none border border-white/10 shadow-2xl overflow-hidden sticky top-6">
+            <div className="bg-[#111118] rounded-2xl border border-white/10 shadow-2xl overflow-hidden sticky top-6">
               
               {/* Mock browser header */}
-              <div className="bg-[#0A0A0A] border-b border-white/5 px-5 py-4 flex items-center justify-between">
+              <div className="bg-[#0a0a0f] border-b border-white/5 px-5 py-4 flex items-center justify-between">
                 <div className="flex items-center space-x-1.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
                   <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
                   <div className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
                 </div>
-                <div className="text-[10px] font-mono text-white/40 truncate bg-[#111] px-4 py-1 rounded-none border border-white/5">
+                <div className="text-[10px] font-mono text-white/40 truncate bg-[#111118] px-4 py-1 rounded-2xl border border-white/5">
                   New Message — {sig.fullName.toLowerCase().replace(' ', '')}@inkandstamp.com
                 </div>
                 <div className="w-4" />
@@ -562,7 +562,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                 <div className="pt-6 border-t border-white/5 overflow-x-auto">
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-[10px] text-white/40 font-mono uppercase tracking-wider">Live Preview</span>
-                    <div className="flex bg-[#0A0A0A] border border-white/10 rounded-none overflow-hidden">
+                    <div className="flex bg-[#0a0a0f] border border-white/10 rounded-2xl overflow-hidden">
                       <button 
                         type="button" 
                         onClick={() => setPreviewTheme('light')} 
@@ -579,8 +579,8 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                       </button>
                     </div>
                   </div>
-                  <div className={`min-w-[320px] rounded-none border ${previewTheme === 'light' ? 'bg-white border-gray-200' : 'bg-[#121212] border-white/10'} p-2 relative transition-colors duration-300`}>
-                    <div className="absolute top-2 right-2 text-[8px] font-mono bg-[#FF3E00]/10 border border-[#FF3E00]/25 text-[#FF3E00] px-1.5 py-0.5 rounded-none uppercase font-bold tracking-wider z-10">
+                  <div className={`min-w-[320px] rounded-2xl border ${previewTheme === 'light' ? 'bg-white border-gray-200' : 'bg-[#121212] border-white/10'} p-2 relative transition-colors duration-300`}>
+                    <div className="absolute top-2 right-2 text-[8px] font-mono bg-[#b04090]/10 border border-[#b04090]/25 text-[#b04090] px-1.5 py-0.5 rounded-2xl uppercase font-bold tracking-wider z-10">
                       Live Output
                     </div>
                     <div 
@@ -591,8 +591,8 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                 </div>
 
                 {/* Guide helper alert */}
-                <div className="bg-[#0A0A0A] border border-white/5 rounded-none p-4 flex items-start gap-3">
-                  <ShieldAlert className="w-5 h-5 text-[#FF3E00] flex-shrink-0 mt-0.5" />
+                <div className="bg-[#0a0a0f] border border-white/5 rounded-2xl p-4 flex items-start gap-3">
+                  <ShieldAlert className="w-5 h-5 text-[#b04090] flex-shrink-0 mt-0.5" />
                   <div className="text-xs text-white/40 space-y-1">
                     <div className="font-bold text-white uppercase tracking-wider text-[10px]">Dynamic Copy-Paste Ready</div>
                     <p className="leading-relaxed font-light">
@@ -613,7 +613,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
       {/* Cropper Modal */}
       {selectedImage && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-6">
-          <div className="bg-[#111] border border-white/10 p-6 rounded-none w-full max-w-md flex flex-col items-center">
+          <div className="bg-[#111118] border border-white/10 p-6 rounded-2xl w-full max-w-md flex flex-col items-center">
             <h3 className="text-white text-lg font-bold font-sans uppercase tracking-widest mb-4">Crop Image (1:1)</h3>
             <div className="relative w-full h-64 bg-black/50 mb-6 border border-white/10">
               <Cropper
@@ -636,7 +636,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                 step={0.1}
                 aria-labelledby="Zoom"
                 onChange={(e) => setZoom(Number(e.target.value))}
-                className="w-full accent-[#FF3E00]"
+                className="w-full accent-[#b04090]"
               />
             </div>
             <div className="flex gap-4 w-full">
@@ -651,7 +651,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
               <button
                 type="button"
                 onClick={handleUploadCroppedImage}
-                className="flex-1 py-2.5 bg-[#FF3E00] text-black hover:bg-[#e63800] font-black uppercase tracking-widest text-xs transition-colors"
+                className="flex-1 py-2.5 bg-[#b04090] text-black hover:bg-[#903070] font-black uppercase tracking-widest text-xs transition-colors"
                 disabled={isUploading}
               >
                 {isUploading ? 'Uploading...' : 'Confirm & Upload'}

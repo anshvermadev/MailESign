@@ -17,7 +17,7 @@ const PREVIEW_SIGNATURE = {
   phone: '+1 (555) 304-2190',
   email: 'johndoe@lumina.co',
   website: 'www.lumina.co',
-  brandColor: '#FF3E00',
+  brandColor: '#b04090',
   logoUrl: '',
   socials: {
     linkedin: 'linkedin.com/in/johndoe',
@@ -33,7 +33,7 @@ const PREVIEW_SIGNATURE = {
 
 export default function TemplatePicker({ onSelect, onNavigate }: TemplatePickerProps) {
   return (
-    <div className="bg-[#0A0A0A] min-h-screen py-12 px-6">
+    <div className="bg-[#0a0a0f] min-h-screen py-12 px-6">
       <div className="max-w-3xl mx-auto">
         
         {/* Header Block */}
@@ -45,7 +45,7 @@ export default function TemplatePicker({ onSelect, onNavigate }: TemplatePickerP
         {/* Single Template Card */}
         <div className="max-w-xl mx-auto">
           <div
-            className="bg-[#111] border border-white/10 hover:border-[#FF3E00]/40 rounded-none overflow-hidden shadow-2xl transition-all flex flex-col justify-between group"
+            className="bg-[#111118] border border-white/10 hover:border-[#b04090]/40 rounded-2xl overflow-hidden shadow-2xl transition-all flex flex-col justify-between group"
           >
             {/* Visual mockup block showing live rendered signature */}
             <div className="bg-[#151515] border-b border-white/5 p-6 flex items-center justify-center">
@@ -58,8 +58,8 @@ export default function TemplatePicker({ onSelect, onNavigate }: TemplatePickerP
             <div className="p-6 flex-1 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
-                  <h3 className="font-sans font-black text-white uppercase text-sm tracking-wider group-hover:text-[#FF3E00] transition-colors">Premium Boxed</h3>
-                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-none uppercase font-bold tracking-widest bg-[#FF3E00]/10 text-[#FF3E00] border border-[#FF3E00]/20">
+                  <h3 className="font-sans font-black text-white uppercase text-sm tracking-wider group-hover:text-[#b04090] transition-colors">Premium Boxed</h3>
+                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-2xl uppercase font-bold tracking-widest bg-[#b04090]/10 text-[#b04090] border border-[#b04090]/20">
                     Featured
                   </span>
                 </div>
@@ -71,7 +71,7 @@ export default function TemplatePicker({ onSelect, onNavigate }: TemplatePickerP
               <button
                 id="template-select-premium-boxed"
                 onClick={() => onSelect('premium-boxed')}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#0A0A0A] group-hover:bg-[#FF3E00] border border-white/10 group-hover:border-[#FF3E00] text-white group-hover:text-black rounded-none text-xs font-black uppercase tracking-widest transition-all"
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#0a0a0f] group-hover:bg-[#b04090] border border-white/10 group-hover:border-[#b04090] text-white group-hover:text-black rounded-2xl text-xs font-black uppercase tracking-widest transition-all"
               >
                 <span>Choose Format & Edit</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -80,8 +80,8 @@ export default function TemplatePicker({ onSelect, onNavigate }: TemplatePickerP
           </div>
 
           {/* Coming soon hint */}
-          <div className="mt-8 bg-[#111] border border-white/10 rounded-none p-5 flex items-start gap-3">
-            <Sparkles className="w-5 h-5 text-[#FF3E00] flex-shrink-0 mt-0.5" />
+          <div className="mt-8 bg-[#111118] border border-white/10 rounded-2xl p-5 flex items-start gap-3">
+            <Sparkles className="w-5 h-5 text-[#b04090] flex-shrink-0 mt-0.5" />
             <div>
               <div className="text-xs font-bold text-white uppercase tracking-wider">More Templates Coming Soon</div>
               <p className="text-[11px] text-white/40 leading-relaxed font-light mt-1">

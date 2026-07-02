@@ -11,7 +11,7 @@ export const INITIAL_SIGNATURES: Signature[] = [
     phone: '+1 (555) 304-2190',
     email: 'johndoe@lumina.co',
     website: 'www.lumina.co',
-    brandColor: '#FF3E00',
+    brandColor: '#b04090',
     logoUrl: '',
     socials: {
       linkedin: 'linkedin.com/in/johndoe',
@@ -43,7 +43,7 @@ export function setStoredSignatures(signatures: Signature[]) {
 }
 
 export function generateSignatureHTML(sig: Signature): string {
-  const brandColor = sig.brandColor || '#FF3E00';
+  const brandColor = sig.brandColor || '#b04090';
   const logo = sig.logoUrl || 'https://via.placeholder.com/100';
 
   const formatUrl = (url?: string) => {

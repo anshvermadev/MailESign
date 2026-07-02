@@ -76,109 +76,40 @@ export default function App() {
     if (view === 'landing') navigate('/');
     else navigate(`/${view}`);
     setMobileMenuOpen(false);
+    document.body.style.overflow = '';
     window.scrollTo(0, 0);
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0A0A0A] text-[#F5F5F5] font-sans antialiased selection:bg-[#FF3E00]/20 selection:text-[#FF3E00] border-8 border-[#1A1A1A]">
+    <div className="min-h-screen flex flex-col bg-[#0a0a0f] text-[#f0f0f5] font-sans antialiased selection:bg-[#b04090]/20 selection:text-[#b04090] border-8 border-[#111118]">
       
-      {/* GLOBAL HIGH-END NAVIGATION BAR */}
-      <nav className="sticky top-0 z-50 bg-[#0A0A0A]/95 backdrop-blur-md border-b border-white/5 px-6 py-4 transition-all">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          
-          {/* Logo brand */}
-          <button 
-            id="nav-logo"
-            onClick={() => handleViewChange('landing')}
-            className="flex items-center gap-2 text-xl font-sans font-black text-white tracking-tighter uppercase group"
-          >
-            <div className="w-8 h-8 bg-[#FF3E00] text-black rounded-none flex items-center justify-center font-bold text-lg group-hover:scale-105 transition-transform">
-              ⚓
-            </div>
-            <span>Ink&Stamp</span>
-          </button>
-
-          {/* Desktop central links */}
-          <div className="hidden md:flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] font-bold text-white/50">
-            <button
-              id="nav-btn-dashboard"
-              onClick={() => handleViewChange('dashboard')}
-              className={`px-3.5 py-1.5 transition-all border ${activeView === 'dashboard' ? 'text-[#FF3E00] bg-[#111] border-white/10' : 'border-transparent text-white/60 hover:text-white hover:bg-white/5'}`}
-            >
-              Dashboard
-            </button>
-            <button
-              id="nav-btn-templates"
-              onClick={() => handleViewChange('templates')}
-              className={`px-3.5 py-1.5 transition-all border ${activeView === 'templates' ? 'text-[#FF3E00] bg-[#111] border-white/10' : 'border-transparent text-white/60 hover:text-white hover:bg-white/5'}`}
-            >
-              Templates Gallery
-            </button>
-            <button
-              id="nav-btn-install"
-              onClick={() => handleViewChange('install-steps')}
-              className={`px-3.5 py-1.5 transition-all border ${activeView === 'install-steps' ? 'text-[#FF3E00] bg-[#111] border-white/10' : 'border-transparent text-white/60 hover:text-white hover:bg-white/5'}`}
-            >
-              Install Guides
-            </button>
-            <a
-              href="https://google.com"
-              target="_blank"
-              referrerPolicy="no-referrer"
-              className="px-3 py-2 hover:text-white transition-all flex items-center gap-1"
-            >
-              <span>Resources</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
+      {/* XERO STYLE NAVIGATION BAR */}
+      <nav className="xero-nav sticky top-0 bg-[#0a0a0f]/95 backdrop-blur-md" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', marginBottom: 0, paddingBottom: 16 }}>
+        <span className="nav-logo" onClick={() => handleViewChange('landing')} style={{ cursor: 'pointer' }}>Xero</span>
+        
+        <div className={`nav-menu ${mobileMenuOpen ? 'active' : ''}`}>
+          <ul className="nav-links">
+            <li><a href="#" onClick={(e) => { e.preventDefault(); handleViewChange('landing'); }}>Home</a></li>
+            <li><a href="#" onClick={(e) => { e.preventDefault(); handleViewChange('templates'); }}>Templates</a></li>
+            <li><a href="#" onClick={(e) => { e.preventDefault(); handleViewChange('install-steps'); }}>Installation Guide</a></li>
+          </ul>
+          <div className="nav-actions">
+            <a href="#" className="btn-signup" onClick={(e) => { e.preventDefault(); handleViewChange('templates'); }}>Get Started</a>
           </div>
-
-          {/* Desktop Action Right Area */}
-          <div className="hidden md:flex items-center gap-3">
-            <button
-              id="nav-btn-create"
-              onClick={() => handleViewChange('templates')}
-              className="bg-[#FF3E00] hover:bg-[#e63800] text-black px-5 py-2.5 rounded-none text-xs font-black uppercase tracking-widest transition-all"
-            >
-              Create Signature
-            </button>
-          </div>
-
-          {/* Mobile Hamburguer toggle button */}
-          <div className="md:hidden flex items-center gap-2">
-            <button
-              onClick={() => handleViewChange('templates')}
-              className="bg-[#FF3E00] text-black px-3 py-1.5 text-xs font-black uppercase tracking-wider rounded-none"
-            >
-              Start
-            </button>
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 border border-white/10 bg-[#111] text-white hover:bg-white/5 rounded-none"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
-
         </div>
-      </nav>
 
-      {/* MOBILE EXPANDABLE DRAWER */}
-      {mobileMenuOpen && (
-        <motion.div 
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="md:hidden bg-[#0A0A0A] border-b border-white/10 px-6 py-5 space-y-4 shadow-xl absolute top-[69px] left-0 w-full z-40 text-xs font-semibold uppercase tracking-wider"
+        <button 
+          className={`menu-toggle ${mobileMenuOpen ? 'active' : ''}`}
+          onClick={() => {
+            const newState = !mobileMenuOpen;
+            setMobileMenuOpen(newState);
+            document.body.style.overflow = newState ? 'hidden' : '';
+          }}
         >
-          <div className="space-y-3.5">
-            <button onClick={() => handleViewChange('landing')} className="block w-full text-left py-1 text-white/60 hover:text-[#FF3E00]">Home</button>
-            <button onClick={() => handleViewChange('dashboard')} className="block w-full text-left py-1 text-white/60 hover:text-[#FF3E00]">Dashboard</button>
-            <button onClick={() => handleViewChange('templates')} className="block w-full text-left py-1 text-white/60 hover:text-[#FF3E00]">Templates Gallery</button>
-            <button onClick={() => handleViewChange('install-steps')} className="block w-full text-left py-1 text-white/60 hover:text-[#FF3E00]">Install Guides</button>
-            <button onClick={() => handleViewChange('templates')} className="block w-full text-left py-1.5 mt-2 bg-[#FF3E00] text-black text-center font-black rounded-none">Create Signature</button>
-          </div>
-        </motion.div>
-      )}
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
 
       {/* CORE WORKSPACE CONTENT AREA WITH SLIDE TRANSITIONS */}
       <main className="flex-grow">
@@ -214,21 +145,21 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      {/* GLOBAL HIGH-END DESIGN FOOTER */}
-      <footer className="bg-[#111] text-white/40 py-16 px-10 border-t border-white/5">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 text-sm">
-          
-          {/* Footer Logo & Tagline */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 text-white text-lg font-sans font-black uppercase tracking-tighter">
-              <span className="text-xl">⚓</span>
-              <span>Ink&Stamp</span>
+      {/* GLOBAL FOOTER */}
+      <footer className="bg-[#111118] border-t border-white/5 py-12 px-6 mt-auto">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 text-sm text-white/40">
+          <div className="col-span-1 md:col-span-1 flex flex-col items-start gap-4">
+            <div className="flex items-center gap-2 text-white font-black uppercase tracking-tighter">
+              <div className="w-5 h-5 bg-[#b04090] text-white rounded-2xl flex items-center justify-center text-[10px]">
+                X
+              </div>
+              <span>Xero</span>
             </div>
             <p className="text-xs leading-relaxed text-white/60">
               Meticulously designed, inline-styled email signatures built to establish your professional presence. All assets hosted over secure SSL CDNs.
             </p>
-            <div className="text-[10px] font-mono text-[#FF3E00] uppercase tracking-widest font-bold">
-              © 2026 Ink&Stamp Corp. All rights reserved.
+            <div className="text-[10px] font-mono text-[#b04090] uppercase tracking-widest font-bold">
+              © 2026 Xero Corp. All rights reserved.
             </div>
           </div>
 
