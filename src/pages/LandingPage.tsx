@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-export default function LandingPage() {
+export default function LandingPage({ onNavigate }: { onNavigate?: (view: string) => void }) {
   // Refs for the animation
   const pipelineRef = useRef<HTMLDivElement>(null);
   const nodeStackRef = useRef<HTMLDivElement>(null);
@@ -19,19 +19,19 @@ export default function LandingPage() {
 
     const updatePath = () => {
       if (!pipelineRef.current || !nodeStackRef.current || !nodeXRef.current || !nodeShieldRef.current || !beamPathGlowRef.current || !beamPathCoreRef.current) return;
-      
+
       const pRect = pipelineRef.current.getBoundingClientRect();
       const sRect = nodeStackRef.current.getBoundingClientRect();
       const xRect = nodeXRef.current.getBoundingClientRect();
       const shRect = nodeShieldRef.current.getBoundingClientRect();
-      
-      const startX = sRect.left + sRect.width/2 - pRect.left;
-      const startY = sRect.top  + sRect.height/2 - pRect.top;
-      const midX = xRect.left + xRect.width/2 - pRect.left;
-      const midY = xRect.top + xRect.height/2 - pRect.top;
-      const endX = shRect.left + shRect.width/2 - pRect.left;
-      const endY = shRect.top + shRect.height/2 - pRect.top;
-      
+
+      const startX = sRect.left + sRect.width / 2 - pRect.left;
+      const startY = sRect.top + sRect.height / 2 - pRect.top;
+      const midX = xRect.left + xRect.width / 2 - pRect.left;
+      const midY = xRect.top + xRect.height / 2 - pRect.top;
+      const endX = shRect.left + shRect.width / 2 - pRect.left;
+      const endY = shRect.top + shRect.height / 2 - pRect.top;
+
       const d = `M ${startX},${startY} L ${midX},${midY} L ${endX},${endY}`;
       beamPathGlowRef.current.setAttribute('d', d);
       beamPathCoreRef.current.setAttribute('d', d);
@@ -39,7 +39,7 @@ export default function LandingPage() {
 
     const animate = (time: number) => {
       const elapsed = time - lastStateChange;
-      
+
       if (!gradientRef.current || !beamPathGlowRef.current || !beamPathCoreRef.current || !nodeStackRef.current || !nodeShieldRef.current || !splashRef.current) {
         animationFrameId = requestAnimationFrame(animate);
         return;
@@ -55,16 +55,16 @@ export default function LandingPage() {
         const duration = 800;
         let p = elapsed / duration;
         if (p > 1) p = 1;
-        
+
         // p1 interpolates percentage from 0 to 0.5
         const percentage = p * 0.5;
         const center = percentage * 100;
         gradientRef.current.setAttribute('x1', `${center - 5}%`);
         gradientRef.current.setAttribute('x2', `${center + 5}%`);
-        
+
         if (p < 0.4) stackList.add('active');
         else stackList.remove('active');
-        
+
         if (p >= 1) {
           currentState = 'splash';
           lastStateChange = time;
@@ -72,7 +72,7 @@ export default function LandingPage() {
           coreStyle.opacity = '0';
           splashList.add('animate');
         }
-      } 
+      }
       else if (currentState === 'splash') {
         const duration = 800;
         if (elapsed >= duration) {
@@ -87,15 +87,15 @@ export default function LandingPage() {
         const duration = 800;
         let p = elapsed / duration;
         if (p > 1) p = 1;
-        
+
         // p2 interpolates percentage from 0.5 to 1.0
         const percentage = 0.5 + (p * 0.5);
         const center = percentage * 100;
         gradientRef.current.setAttribute('x1', `${center - 5}%`);
         gradientRef.current.setAttribute('x2', `${center + 5}%`);
-        
+
         if (p > 0.6) shieldList.add('active');
-        
+
         if (p >= 1) {
           currentState = 'idle';
           lastStateChange = time;
@@ -129,7 +129,7 @@ export default function LandingPage() {
 
   return (
     <div className="xero-landing-page">
-      
+
       {/* HERO CARD */}
       <section className="hero-card">
         <div className="hero-grid"></div>
@@ -156,9 +156,9 @@ export default function LandingPage() {
 
           <div id="node-stack" className="icon-node node-light-right" ref={nodeStackRef}>
             <svg viewBox="0 0 24 24">
-              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
-              <polyline points="2 17 12 22 22 17"/>
-              <polyline points="2 12 12 17 22 12"/>
+              <polygon points="12 2 2 7 12 12 22 7 12 2" />
+              <polyline points="2 17 12 22 22 17" />
+              <polyline points="2 12 12 17 22 12" />
             </svg>
           </div>
 
@@ -177,8 +177,8 @@ export default function LandingPage() {
 
           <div id="node-shield" className="icon-node node-light-left" ref={nodeShieldRef}>
             <svg viewBox="0 0 24 24">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              <polyline points="9 12 11 14 15 10"/>
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <polyline points="9 12 11 14 15 10" />
             </svg>
           </div>
         </div>
@@ -186,14 +186,14 @@ export default function LandingPage() {
         {/* HERO TEXT */}
         <div className="hero-content">
           <h1 className="hero-heading">
-            The simple way
-            <strong>encryption your data</strong>
+            The simple way to create
+            <strong>email signatures</strong>
           </h1>
           <p className="hero-sub">
-            Fully managed data encrypting service and annotation<br />
-            platform for teams of all industries.
+            Design, manage, and deploy professional brand signatures<br />
+            across your entire organization in minutes.
           </p>
-          <a href="#" className="btn-cta">Get Started</a>
+          <a href="/templates" className="btn-cta" onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate('templates'); }}>Get Started</a>
         </div>
       </section>
 
@@ -206,7 +206,7 @@ export default function LandingPage() {
           </svg>
           Expedia
         </div>
-        
+
         <div className="brand-item">
           <svg viewBox="0 0 24 24">
             <circle cx="12" cy="7" r="4" fill="currentColor" />
@@ -215,7 +215,7 @@ export default function LandingPage() {
           </svg>
           asana
         </div>
-        
+
         <div className="brand-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <polyline points="4 8 20 8" />
@@ -224,7 +224,7 @@ export default function LandingPage() {
           </svg>
           zenefits
         </div>
-        
+
         <div className="brand-item">
           <svg viewBox="0 0 24 24">
             <circle cx="15.5" cy="8.5" r="2.5" fill="currentColor" />
@@ -233,7 +233,7 @@ export default function LandingPage() {
           </svg>
           HubSp<span className="hubspot-dot"></span>t
         </div>
-        
+
         <div className="brand-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
             <circle cx="12" cy="12" r="9" />

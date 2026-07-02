@@ -99,7 +99,7 @@ export default function TemplatePicker({ onSelect, onNavigate }: TemplatePickerP
                 <button
                   id={`template-select-${tpl.id}`}
                   onClick={() => onSelect(tpl.id)}
-                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#0a0a0f] group-hover:bg-[#b04090] border border-white/10 group-hover:border-[#b04090] text-white group-hover:text-black rounded-2xl text-xs font-black uppercase tracking-widest transition-all"
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#0a0a0f] group-hover:bg-[#b04090] border border-white/10 group-hover:border-[#b04090] text-white group-hover:text-black rounded-2xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer"
                 >
                   <span>Choose Format & Edit</span>
                   <ArrowRight className="w-3.5 h-3.5" />

@@ -85,7 +85,7 @@ export default function App() {
       
       {/* XERO STYLE NAVIGATION BAR */}
       <nav className="xero-nav sticky top-0 bg-[#0a0a0f]/95 backdrop-blur-md" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', marginBottom: 0, paddingBottom: 16 }}>
-        <span className="nav-logo" onClick={() => handleViewChange('landing')} style={{ cursor: 'pointer' }}>Xero</span>
+        <span className="nav-logo" onClick={() => handleViewChange('landing')} style={{ cursor: 'pointer' }}>MailESign</span>
         
         <div className={`nav-menu ${mobileMenuOpen ? 'active' : ''}`}>
           <ul className="nav-links">
@@ -94,7 +94,7 @@ export default function App() {
             <li><a href="#" onClick={(e) => { e.preventDefault(); handleViewChange('install-steps'); }}>Installation Guide</a></li>
           </ul>
           <div className="nav-actions">
-            <a href="#" className="btn-signup" onClick={(e) => { e.preventDefault(); handleViewChange('templates'); }}>Get Started</a>
+            <a href="/templates" className="btn-signup" onClick={(e) => { e.preventDefault(); handleViewChange('templates'); }}>Get Started</a>
           </div>
         </div>
 
@@ -151,15 +151,15 @@ export default function App() {
           <div className="col-span-1 md:col-span-1 flex flex-col items-start gap-4">
             <div className="flex items-center gap-2 text-white font-black uppercase tracking-tighter">
               <div className="w-5 h-5 bg-[#b04090] text-white rounded-2xl flex items-center justify-center text-[10px]">
-                X
+                M
               </div>
-              <span>Xero</span>
+              <span>MailESign</span>
             </div>
             <p className="text-xs leading-relaxed text-white/60">
               Meticulously designed, inline-styled email signatures built to establish your professional presence. All assets hosted over secure SSL CDNs.
             </p>
             <div className="text-[10px] font-mono text-[#b04090] uppercase tracking-widest font-bold">
-              © 2026 Xero Corp. All rights reserved.
+              © 2026 MailESign Corp. All rights reserved.
             </div>
           </div>
 
