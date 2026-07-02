@@ -9,7 +9,6 @@ export interface Signature {
   phone: string;
   email: string;
   website: string;
-  brandColor: string;
   logoUrl: string;
   socials: {
     linkedin?: string;

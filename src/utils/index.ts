@@ -11,7 +11,6 @@ export const INITIAL_SIGNATURES: Signature[] = [
     phone: '+1 (555) 304-2190',
     email: 'johndoe@lumina.co',
     website: 'www.lumina.co',
-    brandColor: '#b04090',
     logoUrl: '',
     socials: {
       linkedin: 'linkedin.com/in/johndoe',
@@ -43,7 +42,6 @@ export function setStoredSignatures(signatures: Signature[]) {
 }
 
 export function generateSignatureHTML(sig: Signature): string {
-  const brandColor = sig.brandColor || '#b04090';
   const logo = sig.logoUrl || 'https://via.placeholder.com/100';
 
   const formatUrl = (url?: string) => {
@@ -71,7 +69,7 @@ export function generateSignatureHTML(sig: Signature): string {
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td align="center" style="padding-bottom: 8px;">
-            <span style="font-size: 14px; font-weight: bold; color: ${brandColor};">⚓</span>
+            <span style="font-size: 14px; font-weight: bold; color: #000000;">⚓</span>
           </td>
         </tr>
         <tr>
@@ -91,7 +89,7 @@ export function generateSignatureHTML(sig: Signature): string {
               ${sig.companyName}
             </div>
             <div style="font-size: 18px; font-weight: bold; color: #1a1c1c; margin-top: 4px; margin-bottom: 2px;">
-              ${sig.fullName} <span style="color: ${brandColor};">✔</span>
+              ${sig.fullName} <span style="color: #000000;">✔</span>
             </div>
             <div style="font-size: 14px; color: #5f5e5e; font-style: italic; margin-bottom: 8px;">
               ${sig.jobTitle}
@@ -116,9 +114,9 @@ export function generateSignatureHTML(sig: Signature): string {
 
     case 'stark-minimal':
       return `
-<div style="font-family: Arial, sans-serif; max-width: 450px; border-top: 2px solid ${brandColor}; border-bottom: 1px solid #e5e2e1; padding: 12px 0; background-color: #ffffff;">
+<div style="font-family: Arial, sans-serif; max-width: 450px; border-top: 2px solid #000000; border-bottom: 1px solid #e5e2e1; padding: 12px 0; background-color: #ffffff;">
   <div style="font-size: 16px; font-weight: bold; color: #1a1c1c;">${sig.fullName}</div>
-  <div style="font-size: 12px; color: #5f5e5e; margin-bottom: 8px;">${sig.jobTitle} at <strong style="color: ${brandColor};">${sig.companyName}</strong></div>
+  <div style="font-size: 12px; color: #5f5e5e; margin-bottom: 8px;">${sig.jobTitle} at <strong style="color: #000000;">${sig.companyName}</strong></div>
   <div style="font-size: 12px; color: #656464; line-height: 1.4;">
     <span>${sig.phone}</span> | 
     <span><a href="mailto:${sig.email}" style="color: #1a1c1c; text-decoration: none;">${sig.email}</a></span> | 
@@ -154,7 +152,7 @@ export function generateSignatureHTML(sig: Signature): string {
 <div style="font-family: monospace; max-width: 450px; border: 1px solid #1a1c1c; padding: 12px; background-color: #ffffff;">
   <div style="border-bottom: 1px solid #1a1c1c; padding-bottom: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
     <span style="font-size: 16px; font-weight: bold; color: #1a1c1c;">${sig.fullName.toUpperCase()}</span>
-    <span style="background-color: ${brandColor}; color: #ffffff; padding: 2px 6px; font-size: 10px;">PRO</span>
+    <span style="background-color: #000000; color: #ffffff; padding: 2px 6px; font-size: 10px;">PRO</span>
   </div>
   <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; font-size: 12px;">
     <tr>
@@ -185,7 +183,7 @@ export function generateSignatureHTML(sig: Signature): string {
       return `
 <div style="font-family: Georgia, serif; max-width: 450px; background-color: #ffffff; padding: 10px 0;">
   <div style="font-size: 24px; font-weight: bold; color: #1a1c1c; line-height: 1.1; margin-bottom: 4px;">${sig.fullName}</div>
-  <div style="font-size: 13px; font-family: monospace; letter-spacing: 1px; color: ${brandColor}; text-transform: uppercase; margin-bottom: 12px;">
+  <div style="font-size: 13px; font-family: monospace; letter-spacing: 1px; color: #000000; text-transform: uppercase; margin-bottom: 12px;">
     ${sig.jobTitle} // ${sig.companyName}
   </div>
   <div style="border-left: 2px solid #5f5e5e; padding-left: 12px; font-size: 12px; font-family: monospace; color: #5f5e5e; line-height: 1.6;">
@@ -210,9 +208,9 @@ export function generateSignatureHTML(sig: Signature): string {
     <td valign="bottom" align="right" style="padding-left: 16px; width: 140px;">
       <div style="font-size: 11px; font-family: monospace; color: #5f5e5e; margin-bottom: 4px;">CONNECT:</div>
       <div>
-        ${sig.socials.linkedin ? `<a href="https://${sig.socials.linkedin}" style="display:inline-block; margin-left: 6px; text-decoration:none; color:${brandColor}; font-weight:bold; font-size:12px;">LN</a>` : ''}
-        ${sig.socials.twitter ? `<a href="https://${sig.socials.twitter}" style="display:inline-block; margin-left: 6px; text-decoration:none; color:${brandColor}; font-weight:bold; font-size:12px;">TW</a>` : ''}
-        ${sig.socials.instagram ? `<a href="https://${sig.socials.instagram}" style="display:inline-block; margin-left: 6px; text-decoration:none; color:${brandColor}; font-weight:bold; font-size:12px;">IG</a>` : ''}
+        ${sig.socials.linkedin ? `<a href="https://${sig.socials.linkedin}" style="display:inline-block; margin-left: 6px; text-decoration:none; color:#000000; font-weight:bold; font-size:12px;">LN</a>` : ''}
+        ${sig.socials.twitter ? `<a href="https://${sig.socials.twitter}" style="display:inline-block; margin-left: 6px; text-decoration:none; color:#000000; font-weight:bold; font-size:12px;">TW</a>` : ''}
+        ${sig.socials.instagram ? `<a href="https://${sig.socials.instagram}" style="display:inline-block; margin-left: 6px; text-decoration:none; color:#000000; font-weight:bold; font-size:12px;">IG</a>` : ''}
       </div>
     </td>
   </tr>

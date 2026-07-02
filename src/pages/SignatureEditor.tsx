@@ -15,27 +15,41 @@ interface SignatureEditorProps {
 
 export default function SignatureEditor({ initialSignature, selectedTemplateId, onSave, onNavigate }: SignatureEditorProps) {
   // Local editable signature state
-  const [sig, setSig] = useState<Signature>({
-    id: `sig-${Date.now()}`,
-    name: 'New Signature Profile',
-    fullName: 'John Doe',
-    jobTitle: 'Creative Director',
-    companyName: 'Lumina Group',
-    phone: '+1 (555) 304-2190',
-    email: 'johndoe@lumina.co',
-    website: 'www.lumina.co',
-    brandColor: '#b04090',
-    logoUrl: '',
-    socials: {
-      linkedin: 'linkedin.com/in/johndoe',
-      twitter: 'twitter.com/johndoe',
-      instagram: 'instagram.com/johndoe',
-    },
-    templateId: selectedTemplateId || 'premium-boxed',
-    animatedIcons: true,
-    status: 'Draft',
-    updatedAt: new Date().toISOString().split('T')[0],
-    clicksCount: 0,
+  const [sig, setSig] = useState<Signature>(() => {
+    if (initialSignature) return { ...initialSignature };
+
+    try {
+      const draft = localStorage.getItem('signature_editor_draft');
+      if (draft) {
+        const parsedDraft = JSON.parse(draft);
+        if (selectedTemplateId) parsedDraft.templateId = selectedTemplateId;
+        return parsedDraft;
+      }
+    } catch (e) {
+      console.error('Failed to parse signature draft', e);
+    }
+
+    return {
+      id: `sig-${Date.now()}`,
+      name: 'New Signature Profile',
+      fullName: 'John Doe',
+      jobTitle: 'Creative Director',
+      companyName: 'Lumina Group',
+      phone: '+1 (555) 304-2190',
+      email: 'johndoe@lumina.co',
+      website: 'www.lumina.co',
+      logoUrl: '',
+      socials: {
+        linkedin: 'linkedin.com/in/johndoe',
+        twitter: 'twitter.com/johndoe',
+        instagram: 'instagram.com/johndoe',
+      },
+      templateId: selectedTemplateId || 'premium-boxed',
+      animatedIcons: true,
+      status: 'Draft',
+      updatedAt: new Date().toISOString().split('T')[0],
+      clicksCount: 0,
+    };
   });
 
   const [copied, setCopied] = useState(false);
@@ -54,6 +68,11 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
       setSig({ ...initialSignature });
     }
   }, [initialSignature]);
+
+  // Auto-save to localStorage to prevent data loss on reload
+  useEffect(() => {
+    localStorage.setItem('signature_editor_draft', JSON.stringify(sig));
+  }, [sig]);
 
   const handleFieldChange = (field: keyof Signature, value: any) => {
     setSig((prev) => ({
@@ -79,13 +98,14 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleFormSubmit = (e?: React.FormEvent | React.MouseEvent) => {
+    if (e && e.preventDefault) e.preventDefault();
     onSave({
       ...sig,
       updatedAt: new Date().toISOString().split('T')[0],
     });
     setSaveSuccess(true);
+    localStorage.removeItem('signature_editor_draft');
     setTimeout(() => {
       setSaveSuccess(false);
       onNavigate('dashboard');
