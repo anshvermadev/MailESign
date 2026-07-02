@@ -1,8 +1,3 @@
-export interface UserProfile {
-  fullName: string;
-  email: string;
-}
-
 export type TemplateType = 'executive-modern' | 'stark-minimal' | 'editorial-portrait' | 'grid-brutalist' | 'type-heavy' | 'social-aligned' | 'premium-boxed';
 
 export interface Signature {

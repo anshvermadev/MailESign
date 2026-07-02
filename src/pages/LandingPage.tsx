@@ -6,10 +6,9 @@ import { generateSignatureHTML, copyHtmlToClipboard } from '../utils';
 
 interface LandingPageProps {
   onNavigate: (view: string) => void;
-  isLoggedIn: boolean;
 }
 
-export default function LandingPage({ onNavigate, isLoggedIn }: LandingPageProps) {
+export default function LandingPage({ onNavigate }: LandingPageProps) {
   // Demo Signature state
   const [demoSig, setDemoSig] = useState<Signature>({
     id: 'demo-sig',
@@ -91,7 +90,7 @@ export default function LandingPage({ onNavigate, isLoggedIn }: LandingPageProps
             >
               <button
                 id="hero-cta-create"
-                onClick={() => onNavigate(isLoggedIn ? 'templates' : 'auth')}
+                onClick={() => onNavigate('templates')}
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#FF3E00] hover:bg-[#e63800] text-black font-black uppercase text-xs tracking-widest rounded-none transition-all duration-200"
               >
                 <span>Create your signature</span>
