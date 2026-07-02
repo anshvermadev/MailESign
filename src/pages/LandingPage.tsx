@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Sparkles, ArrowRight, MousePointerClick, ShieldCheck, Database, FileCode, Landmark, Terminal, Zap, CheckCircle } from 'lucide-react';
 import { Signature } from '../types';
-import { generateSignatureHTML } from '../utils';
+import { generateSignatureHTML, copyHtmlToClipboard } from '../utils';
 
 interface LandingPageProps {
   onNavigate: (view: string) => void;
@@ -35,9 +35,9 @@ export default function LandingPage({ onNavigate, isLoggedIn }: LandingPageProps
 
   const [copied, setCopied] = useState(false);
 
-  const handleCopyDemoHTML = () => {
+  const handleCopyDemoHTML = async () => {
     const html = generateSignatureHTML(demoSig);
-    navigator.clipboard.writeText(html);
+    await copyHtmlToClipboard(html);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

@@ -282,3 +282,53 @@ export function generateSignatureHTML(sig: Signature): string {
       return `<div><strong>${sig.fullName}</strong><br>${sig.jobTitle} at ${sig.companyName}</div>`;
   }
 }
+
+export async function copyHtmlToClipboard(htmlString: string): Promise<boolean> {
+  const container = document.createElement('div');
+  container.innerHTML = htmlString;
+  container.style.position = 'fixed';
+  container.style.pointerEvents = 'none';
+  container.style.opacity = '0';
+  document.body.appendChild(container);
+
+  const selection = window.getSelection();
+  const range = document.createRange();
+  let execCommandSuccess = false;
+
+  try {
+    if (selection) {
+      selection.removeAllRanges();
+      range.selectNodeContents(container);
+      selection.addRange(range);
+      execCommandSuccess = document.execCommand('copy');
+    }
+  } catch (fallbackErr) {
+    console.warn('execCommand failed, attempting Clipboard API fallback', fallbackErr);
+  } finally {
+    if (selection) {
+      selection.removeAllRanges();
+    }
+    document.body.removeChild(container);
+  }
+
+  if (execCommandSuccess) {
+    return true;
+  }
+
+  try {
+    if (navigator.clipboard && window.ClipboardItem) {
+      const blob = new Blob([htmlString], { type: 'text/html' });
+      const textBlob = new Blob([htmlString.replace(/<[^>]+>/g, '')], { type: 'text/plain' });
+      const item = new ClipboardItem({
+        'text/html': blob,
+        'text/plain': textBlob,
+      });
+      await navigator.clipboard.write([item]);
+      return true;
+    }
+  } catch (err) {
+    console.error('All copy methods failed', err);
+  }
+  return false;
+}
+

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Mail, Check, Copy, AlertCircle, Info, Settings, Layout, ExternalLink, HelpCircle } from 'lucide-react';
 import { Signature } from '../types';
-import { generateSignatureHTML } from '../utils';
+import { generateSignatureHTML, copyHtmlToClipboard } from '../utils';
 import SignaturePreview from '../components/SignaturePreview';
 
 interface InstallStepsProps {
@@ -22,63 +22,12 @@ export default function InstallSteps({ signatures }: InstallStepsProps) {
   const handleCopyRichText = async () => {
     if (!selectedSig) return;
     const htmlString = generateSignatureHTML(selectedSig);
-
-    // Primary Method: Creating a hidden div and using execCommand
-    // This is universally the most reliable method for email signatures.
-    // It guarantees the browser handles OS-level 'HTML Format' headers,
-    // which are strictly required for pasting into Outlook Desktop and Word.
-    const container = document.createElement('div');
-    container.innerHTML = htmlString;
-    container.style.position = 'fixed';
-    container.style.pointerEvents = 'none';
-    container.style.opacity = '0';
-    document.body.appendChild(container);
-
-    const selection = window.getSelection();
-    const range = document.createRange();
-    let execCommandSuccess = false;
     
-    try {
-      if (selection) {
-        selection.removeAllRanges();
-        range.selectNodeContents(container);
-        selection.addRange(range);
-        
-        execCommandSuccess = document.execCommand('copy');
-      }
-    } catch (fallbackErr) {
-      console.warn('execCommand failed, attempting Clipboard API fallback', fallbackErr);
-    } finally {
-      if (selection) {
-        selection.removeAllRanges();
-      }
-      document.body.removeChild(container);
-    }
-
-    if (execCommandSuccess) {
+    const success = await copyHtmlToClipboard(htmlString);
+    if (success) {
       setCopiedRich(true);
       setTimeout(() => setCopiedRich(false), 2000);
-      return;
-    }
-
-    // Fallback: Modern Clipboard API
-    try {
-      if (navigator.clipboard && window.ClipboardItem) {
-        const blob = new Blob([htmlString], { type: 'text/html' });
-        const textBlob = new Blob([selectedSig.fullName], { type: 'text/plain' });
-        
-        const item = new ClipboardItem({
-          'text/html': blob,
-          'text/plain': textBlob,
-        });
-        
-        await navigator.clipboard.write([item]);
-        setCopiedRich(true);
-        setTimeout(() => setCopiedRich(false), 2000);
-        return;
-      }
-    } catch (err) {
-      console.error('All copy methods failed', err);
+    } else {
       alert('Your browser blocked clipboard access. Please manually copy the preview.');
     }
   };

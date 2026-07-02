@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Plus, Edit3, Trash2, Code, Copy, CheckCircle, ExternalLink, Activity, LayoutGrid, Check } from 'lucide-react';
 import { Signature } from '../types';
-import { generateSignatureHTML } from '../utils';
+import { generateSignatureHTML, copyHtmlToClipboard } from '../utils';
 import SignaturePreview from '../components/SignaturePreview';
 
 interface DashboardProps {
@@ -15,9 +15,9 @@ interface DashboardProps {
 export default function Dashboard({ signatures, onEdit, onDelete, onNavigate }: DashboardProps) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  const handleCopyHTML = (sig: Signature) => {
+  const handleCopyHTML = async (sig: Signature) => {
     const html = generateSignatureHTML(sig);
-    navigator.clipboard.writeText(html);
+    await copyHtmlToClipboard(html);
     setCopiedId(sig.id);
     setTimeout(() => setCopiedId(null), 2000);
   };

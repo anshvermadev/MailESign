@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Save, Copy, Check, Sparkles, Image, Globe, Mail, Phone, User, Landmark, ShieldAlert, ArrowLeft, Plus, X } from 'lucide-react';
 import { Signature, TemplateType } from '../types';
-import { generateSignatureHTML } from '../utils';
+import { generateSignatureHTML, copyHtmlToClipboard } from '../utils';
 import Cropper from 'react-easy-crop';
 import getCroppedImg from '../utils/crop';
 
@@ -81,9 +81,9 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
     }));
   };
 
-  const handleCopyHTML = () => {
+  const handleCopyHTML = async () => {
     const html = generateSignatureHTML(sig);
-    navigator.clipboard.writeText(html);
+    await copyHtmlToClipboard(html);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
