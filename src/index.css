@@ -556,3 +556,11 @@
     font-size: 1rem;
   }
 }
+
+.dark-preview-filter {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+.dark-preview-filter img {
+  filter: invert(1) hue-rotate(180deg);
+}

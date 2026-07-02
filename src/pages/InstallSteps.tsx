@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Mail, Check, Copy, AlertCircle, Info, Settings, Layout, ExternalLink, HelpCircle } from 'lucide-react';
+import { Mail, Check, Copy, AlertCircle, Info, Settings, Layout, ExternalLink, HelpCircle, ChevronDown } from 'lucide-react';
+import { FaEnvelope, FaMicrosoft, FaGlobe, FaApple } from 'react-icons/fa';
 import { Signature } from '../types';
 import { generateSignatureHTML, copyHtmlToClipboard } from '../utils';
 import SignaturePreview from '../components/SignaturePreview';
@@ -14,6 +15,7 @@ type ClientType = 'gmail' | 'outlook-desktop' | 'outlook-web' | 'apple';
 export default function InstallSteps({ signatures }: InstallStepsProps) {
   const [selectedSigId, setSelectedSigId] = useState<string>(signatures[0]?.id || '');
   const [activeClient, setActiveClient] = useState<ClientType>('gmail');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [copiedRich, setCopiedRich] = useState(false);
   const [copiedRaw, setCopiedRaw] = useState(false);
 
@@ -41,10 +43,10 @@ export default function InstallSteps({ signatures }: InstallStepsProps) {
   };
 
   const clients = [
-    { id: 'gmail', name: 'Gmail', icon: '✉️' },
-    { id: 'outlook-desktop', name: 'Outlook Desktop', icon: '💻' },
-    { id: 'outlook-web', name: 'Outlook Web', icon: '🌐' },
-    { id: 'apple', name: 'Apple Mail', icon: '🍎' },
+    { id: 'gmail', name: 'Gmail', icon: <FaEnvelope size={16} /> },
+    { id: 'outlook-desktop', name: 'Outlook Desktop', icon: <FaMicrosoft size={16} /> },
+    { id: 'outlook-web', name: 'Outlook Web', icon: <FaGlobe size={16} /> },
+    { id: 'apple', name: 'Apple Mail', icon: <FaApple size={16} /> },
   ];
 
   return (
@@ -74,16 +76,41 @@ export default function InstallSteps({ signatures }: InstallStepsProps) {
               <div className="bg-[#111118] border border-white/10 rounded-2xl p-6 space-y-6">
                 <div>
                   <h3 className="text-xs font-mono text-[#b04090] uppercase tracking-widest font-black">1. Select Target Profile</h3>
-                  <select
-                    id="install-select-sig"
-                    value={selectedSigId}
-                    onChange={(e) => setSelectedSigId(e.target.value)}
-                    className="w-full text-xs mt-2 px-3.5 py-2.5 border border-white/10 bg-[#0a0a0f] text-white rounded-2xl focus:outline-none focus:ring-1 focus:ring-[#b04090]"
-                  >
-                    {signatures.map((s) => (
-                      <option key={s.id} value={s.id} className="bg-[#0a0a0f]">{s.name} ({s.fullName})</option>
-                    ))}
-                  </select>
+                  <div className="relative">
+                    <button
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      className="w-full flex items-center justify-between text-xs mt-2 px-4 py-3 border border-white/10 bg-[#0a0a0f] text-white rounded-2xl hover:bg-white/5 transition-colors focus:outline-none focus:ring-1 focus:ring-[#b04090]"
+                    >
+                      <span className="font-semibold text-white/90">
+                        {selectedSig ? `${selectedSig.name} - ${selectedSig.fullName}` : 'Select a profile...'}
+                      </span>
+                      <ChevronDown className={`w-4 h-4 text-white/40 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    
+                    {isDropdownOpen && (
+                      <div className="absolute z-10 w-full mt-2 bg-[#111118] border border-white/10 rounded-2xl shadow-2xl overflow-hidden p-1.5 flex flex-col gap-1">
+                        {signatures.map((s) => (
+                          <button
+                            key={s.id}
+                            onClick={() => {
+                              setSelectedSigId(s.id);
+                              setIsDropdownOpen(false);
+                            }}
+                            className={`w-full text-left px-3 py-2.5 rounded-xl transition-all flex flex-col gap-0.5 ${
+                              selectedSigId === s.id 
+                                ? 'bg-[#b04090]/10 text-[#b04090] border border-[#b04090]/20' 
+                                : 'text-white hover:bg-[#0a0a0f] border border-transparent hover:border-white/5'
+                            }`}
+                          >
+                            <span className="font-bold">{s.name}</span>
+                            <span className={`text-[10px] ${selectedSigId === s.id ? 'text-[#b04090]/70' : 'text-white/40'}`}>
+                              {s.fullName}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Live Minimal Preview Container */}

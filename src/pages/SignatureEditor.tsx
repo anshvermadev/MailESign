@@ -13,15 +13,6 @@ interface SignatureEditorProps {
   onNavigate: (view: string) => void;
 }
 
-const COLOR_PALETTE = [
-  { name: 'Neon Orange', hex: '#b04090' },
-  { name: 'Acid Green', hex: '#22C55E' },
-  { name: 'Electric Blue', hex: '#3B82F6' },
-  { name: 'Vibrant Amber', hex: '#d97706' },
-  { name: 'Sharp Pink', hex: '#EC4899' },
-  { name: 'Pure White', hex: '#FFFFFF' },
-];
-
 export default function SignatureEditor({ initialSignature, selectedTemplateId, onSave, onNavigate }: SignatureEditorProps) {
   // Local editable signature state
   const [sig, setSig] = useState<Signature>({
@@ -41,7 +32,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
       instagram: 'instagram.com/johndoe',
     },
     templateId: selectedTemplateId || 'premium-boxed',
-    animatedIcons: false,
+    animatedIcons: true,
     status: 'Draft',
     updatedAt: new Date().toISOString().split('T')[0],
     clicksCount: 0,
@@ -188,34 +179,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
             </div>
           </div>
 
-          <div className="flex gap-2.5">
-            <button
-              id="editor-btn-copy"
-              type="button"
-              onClick={handleCopyHTML}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-[#111118] hover:bg-white/5 border border-white/10 text-white text-xs font-black uppercase tracking-widest rounded-2xl transition-all"
-            >
-              {copied ? (
-                <>
-                  <Check className="w-3.5 h-3.5 text-green-400" />
-                  <span className="text-green-400">COPIED!</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-3.5 h-3.5 text-[#b04090]" />
-                  <span>Copy HTML Code</span>
-                </>
-              )}
-            </button>
-            <button
-              id="editor-btn-save"
-              onClick={handleFormSubmit}
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#b04090] hover:bg-[#903070] text-black text-xs font-black uppercase tracking-widest rounded-2xl transition-all shadow-sm"
-            >
-              <Save className="w-3.5 h-3.5" />
-              <span>Save Footer</span>
-            </button>
-          </div>
+
         </div>
 
         {/* Success Alert Banner */}
@@ -411,17 +375,26 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                     />
                   </div>
                   <div className="col-span-1 sm:col-span-2 pt-2">
-                    <label className="flex items-center gap-2 cursor-pointer group w-max">
-                      <input
-                        type="checkbox"
-                        checked={sig.animatedIcons || false}
-                        onChange={(e) => handleFieldChange('animatedIcons', e.target.checked)}
-                        className="w-3.5 h-3.5 accent-[#b04090] bg-transparent border border-white/20 rounded-2xl cursor-pointer"
-                      />
+                    <div className="flex items-center gap-3 group cursor-pointer w-max" onClick={() => handleFieldChange('animatedIcons', !sig.animatedIcons)}>
+                      <button
+                        type="button"
+                        role="switch"
+                        aria-checked={sig.animatedIcons}
+                        className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-[#b04090] ${
+                          sig.animatedIcons ? 'bg-[#b04090]' : 'bg-white/10'
+                        }`}
+                      >
+                        <span
+                          aria-hidden="true"
+                          className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out ${
+                            sig.animatedIcons ? 'translate-x-4' : 'translate-x-0'
+                          }`}
+                        />
+                      </button>
                       <span className="text-[10px] font-mono text-white/60 uppercase group-hover:text-white transition-colors">
                         Use Animated Social Icons (GIFs)
                       </span>
-                    </label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -430,53 +403,6 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
             {/* Section 3: Brand Assets */}
             <div className="space-y-5">
               <h3 className="text-xs font-mono text-[#b04090] uppercase tracking-widest font-bold">Brand Assets</h3>
-              
-              {/* Custom Color Selector */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center text-[10px] font-mono text-white/40 uppercase">
-                  <span>Accent Accent Color</span>
-                  <span className="text-[#b04090] font-bold">{sig.brandColor}</span>
-                </div>
-                
-                <div className="flex flex-wrap items-center gap-3">
-                  {/* Preset DOTS */}
-                  <div className="flex gap-2">
-                    {COLOR_PALETTE.map((col) => (
-                      <button
-                        key={col.hex}
-                        type="button"
-                        onClick={() => handleFieldChange('brandColor', col.hex)}
-                        title={col.name}
-                        className={`w-6 h-6 rounded-full border border-black/10 transition-transform ${
-                          sig.brandColor === col.hex ? 'scale-125 ring-2 ring-white/40' : 'hover:scale-110'
-                        }`}
-                        style={{ backgroundColor: col.hex }}
-                      />
-                    ))}
-                  </div>
-
-                  <div className="h-6 w-[1px] bg-white/10" />
-
-                  {/* Manual color picker */}
-                  <div className="flex items-center gap-1.5 bg-[#0a0a0f] border border-white/10 px-2 py-1 rounded-2xl">
-                    <input
-                      id="editor-color-picker"
-                      type="color"
-                      value={sig.brandColor}
-                      onChange={(e) => handleFieldChange('brandColor', e.target.value)}
-                      className="w-5 h-5 border-0 rounded-2xl cursor-pointer p-0 bg-transparent"
-                    />
-                    <input
-                      id="editor-color-picker-text"
-                      type="text"
-                      maxLength={7}
-                      value={sig.brandColor}
-                      onChange={(e) => handleFieldChange('brandColor', e.target.value)}
-                      className="w-16 bg-transparent text-[11px] font-mono text-white border-0 focus:outline-none focus:ring-0 p-0 text-center uppercase"
-                    />
-                  </div>
-                </div>
-              </div>
 
               {/* Logo / Avatar Asset upload block */}
               <div className="space-y-3">
@@ -562,21 +488,28 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                 <div className="pt-6 border-t border-white/5 overflow-x-auto">
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-[10px] text-white/40 font-mono uppercase tracking-wider">Live Preview</span>
-                    <div className="flex bg-[#0a0a0f] border border-white/10 rounded-2xl overflow-hidden">
-                      <button 
-                        type="button" 
-                        onClick={() => setPreviewTheme('light')} 
-                        className={`px-3 py-1 text-[10px] font-bold uppercase transition-colors ${previewTheme === 'light' ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}
-                      >
+                    <div className="flex items-center gap-2 cursor-pointer" onClick={() => setPreviewTheme(previewTheme === 'light' ? 'dark' : 'light')}>
+                      <span className={`text-[10px] font-bold uppercase transition-colors ${previewTheme === 'light' ? 'text-white' : 'text-white/40'}`}>
                         Light
-                      </button>
-                      <button 
-                        type="button" 
-                        onClick={() => setPreviewTheme('dark')} 
-                        className={`px-3 py-1 text-[10px] font-bold uppercase transition-colors ${previewTheme === 'dark' ? 'bg-[#222] text-white' : 'text-white/40 hover:text-white'}`}
+                      </span>
+                      <button
+                        type="button"
+                        role="switch"
+                        aria-checked={previewTheme === 'dark'}
+                        className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-[#b04090] ${
+                          previewTheme === 'dark' ? 'bg-[#b04090]' : 'bg-white/10'
+                        }`}
                       >
-                        Dark
+                        <span
+                          aria-hidden="true"
+                          className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out ${
+                            previewTheme === 'dark' ? 'translate-x-4' : 'translate-x-0'
+                          }`}
+                        />
                       </button>
+                      <span className={`text-[10px] font-bold uppercase transition-colors ${previewTheme === 'dark' ? 'text-white' : 'text-white/40'}`}>
+                        Dark
+                      </span>
                     </div>
                   </div>
                   <div className={`min-w-[320px] rounded-2xl border ${previewTheme === 'light' ? 'bg-white border-gray-200' : 'bg-[#121212] border-white/10'} p-2 relative transition-colors duration-300`}>
@@ -590,8 +523,37 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                   </div>
                 </div>
 
+                <div className="flex flex-col sm:flex-row gap-2.5 pt-4">
+                  <button
+                    id="editor-btn-copy"
+                    type="button"
+                    onClick={handleCopyHTML}
+                    className="inline-flex items-center justify-center flex-1 gap-1.5 px-4 py-3 bg-[#111118] hover:bg-white/5 border border-white/10 text-white text-xs font-black uppercase tracking-widest rounded-2xl transition-all"
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-green-400" />
+                        <span className="text-green-400">COPIED!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5 text-[#b04090]" />
+                        <span>Copy HTML Code</span>
+                      </>
+                    )}
+                  </button>
+                  <button
+                    id="editor-btn-save"
+                    onClick={handleFormSubmit}
+                    className="inline-flex items-center justify-center flex-1 gap-1.5 px-5 py-3 bg-[#b04090] hover:bg-[#903070] text-black text-xs font-black uppercase tracking-widest rounded-2xl transition-all shadow-sm"
+                  >
+                    <Save className="w-3.5 h-3.5" />
+                    <span>Save Footer</span>
+                  </button>
+                </div>
+
                 {/* Guide helper alert */}
-                <div className="bg-[#0a0a0f] border border-white/5 rounded-2xl p-4 flex items-start gap-3">
+                <div className="bg-[#0a0a0f] border border-white/5 rounded-2xl p-4 flex items-start gap-3 mt-4">
                   <ShieldAlert className="w-5 h-5 text-[#b04090] flex-shrink-0 mt-0.5" />
                   <div className="text-xs text-white/40 space-y-1">
                     <div className="font-bold text-white uppercase tracking-wider text-[10px]">Dynamic Copy-Paste Ready</div>
