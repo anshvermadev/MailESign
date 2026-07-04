@@ -26,7 +26,7 @@ export const INITIAL_SIGNATURES: Signature[] = [
 ];
 
 export function getStoredSignatures(): Signature[] {
-  const data = localStorage.getItem('inkstamp_signatures');
+  const data = localStorage.getItem('mailesign_signatures');
   if (data) {
     try {
       return JSON.parse(data);
@@ -38,7 +38,7 @@ export function getStoredSignatures(): Signature[] {
 }
 
 export function setStoredSignatures(signatures: Signature[]) {
-  localStorage.setItem('inkstamp_signatures', JSON.stringify(signatures));
+  localStorage.setItem('mailesign_signatures', JSON.stringify(signatures));
 }
 
 export function generateSignatureHTML(sig: Signature): string {

@@ -480,7 +480,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                   <div className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
                 </div>
                 <div className="text-[10px] font-mono text-white/40 truncate bg-[#111118] px-4 py-1 rounded-2xl border border-white/5">
-                  New Message — {sig.fullName.toLowerCase().replace(' ', '')}@inkandstamp.com
+                  New Message - {sig.fullName.toLowerCase().replace(' ', '')}@mailesign.com
                 </div>
                 <div className="w-4" />
               </div>
