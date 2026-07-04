@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Mail, Check, Copy, AlertCircle, Info, Settings, Layout, ExternalLink, HelpCircle, ChevronDown } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import { Mail, Check, Copy, AlertCircle, Info, Settings, Layout, ExternalLink, HelpCircle, ChevronDown, Edit3, Trash2 } from 'lucide-react';
 import { FaEnvelope, FaMicrosoft, FaGlobe, FaApple } from 'react-icons/fa';
 import { Signature } from '../types';
 import { generateSignatureHTML, copyHtmlToClipboard } from '../utils';
 import SignaturePreview from '../components/SignaturePreview';
+import toast from 'react-hot-toast';
 
 interface InstallStepsProps {
   signatures: Signature[];
+  onEdit?: (sig: Signature) => void;
+  onDelete?: (id: string) => void;
 }
 
 type ClientType = 'gmail' | 'outlook-desktop' | 'outlook-web' | 'apple';
 
-export default function InstallSteps({ signatures }: InstallStepsProps) {
-  const [selectedSigId, setSelectedSigId] = useState<string>(signatures[0]?.id || '');
+export default function InstallSteps({ signatures, onEdit, onDelete }: InstallStepsProps) {
+  const location = useLocation();
+  const [selectedSigId, setSelectedSigId] = useState<string>(location.state?.selectedSignatureId || signatures[0]?.id || '');
   const [activeClient, setActiveClient] = useState<ClientType>('gmail');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [copiedRich, setCopiedRich] = useState(false);
@@ -28,9 +33,10 @@ export default function InstallSteps({ signatures }: InstallStepsProps) {
     const success = await copyHtmlToClipboard(htmlString);
     if (success) {
       setCopiedRich(true);
+      toast.success('Rich Signature Copied!');
       setTimeout(() => setCopiedRich(false), 2000);
     } else {
-      alert('Your browser blocked clipboard access. Please manually copy the preview.');
+      toast.error('Clipboard access blocked. Please manually copy.');
     }
   };
 
@@ -39,6 +45,7 @@ export default function InstallSteps({ signatures }: InstallStepsProps) {
     const htmlString = generateSignatureHTML(selectedSig);
     navigator.clipboard.writeText(htmlString);
     setCopiedRaw(true);
+    toast.success('Raw HTML Copied!');
     setTimeout(() => setCopiedRaw(false), 2000);
   };
 
@@ -115,7 +122,29 @@ export default function InstallSteps({ signatures }: InstallStepsProps) {
 
                 {/* Live Minimal Preview Container */}
                 <div className="border border-white/5 p-4 rounded-2xl bg-[#0a0a0f] space-y-2 overflow-x-auto">
-                  <div className="text-[9px] font-mono text-white/30 uppercase tracking-wider">Preview Signature:</div>
+                  <div className="flex items-center justify-between">
+                    <div className="text-[9px] font-mono text-white/30 uppercase tracking-wider">Preview Signature:</div>
+                    <div className="flex gap-4">
+                      {onEdit && selectedSig && (
+                        <button onClick={() => onEdit(selectedSig)} className="flex items-center gap-1 text-[10px] font-bold text-white/40 hover:text-white uppercase transition-colors">
+                          <Edit3 className="w-3 h-3" /> Edit
+                        </button>
+                      )}
+                      {onDelete && selectedSig && (
+                        <button onClick={() => {
+                            if (confirm('Are you sure you want to delete this signature?')) {
+                              onDelete(selectedSig.id);
+                              toast.success('Signature Deleted!');
+                              setSelectedSigId(signatures.find(s => s.id !== selectedSig.id)?.id || '');
+                            }
+                          }} 
+                          className="flex items-center gap-1 text-[10px] font-bold text-red-400/50 hover:text-red-400 uppercase transition-colors"
+                        >
+                          <Trash2 className="w-3 h-3" /> Delete
+                        </button>
+                      )}
+                    </div>
+                  </div>
                   <SignaturePreview signature={selectedSig} className="!p-4 !min-h-[100px] border border-white/10" />
                 </div>
 

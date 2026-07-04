@@ -7,19 +7,18 @@ import { getStoredSignatures, setStoredSignatures } from './utils';
 
 // Views
 import LandingPage from './pages/LandingPage';
-import Dashboard from './pages/Dashboard';
 import TemplatePicker from './pages/TemplatePicker';
 import SignatureEditor from './pages/SignatureEditor';
 import InstallSteps from './pages/InstallSteps';
 
-type ActiveView = 'landing' | 'dashboard' | 'templates' | 'editor' | 'install-steps';
+type ActiveView = 'landing' | 'templates' | 'editor' | 'install-steps';
+
+import { Toaster } from 'react-hot-toast';
 
 export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const [signatures, setSignatures] = useState<Signature[]>([]);
-  const [selectedSignatureForEdit, setSelectedSignatureForEdit] = useState<Signature | null>(null);
-  const [selectedTemplateId, setSelectedTemplateId] = useState<TemplateType | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const getActiveView = (): ActiveView => {
@@ -43,38 +42,39 @@ export default function App() {
   };
 
   const handleSelectTemplate = (templateId: TemplateType) => {
-    setSelectedTemplateId(templateId);
-    setSelectedSignatureForEdit(null); // Clear editing profile since we are creating new
-    navigate('/editor');
+    navigate(`/editor/new?template=${templateId}`);
   };
 
   const handleEditSignatureLaunch = (sig: Signature) => {
-    setSelectedSignatureForEdit(sig);
-    setSelectedTemplateId(sig.templateId);
-    navigate('/editor');
+    navigate(`/editor/${sig.id}`);
   };
 
   const handleDeleteSignature = (id: string) => {
-    const updated = signatures.filter(s => s.id !== id);
-    handleUpdateSignaturesState(updated);
+    setSignatures((prev) => {
+      const updated = prev.filter(s => s.id !== id);
+      setStoredSignatures(updated);
+      return updated;
+    });
   };
 
   const handleSaveSignature = (savedSig: Signature) => {
-    const exists = signatures.some(s => s.id === savedSig.id);
-    let updated: Signature[];
+    setSignatures((prev) => {
+      const exists = prev.some(s => s.id === savedSig.id);
+      let updated: Signature[];
 
-    if (exists) {
-      updated = signatures.map(s => s.id === savedSig.id ? savedSig : s);
-    } else {
-      updated = [savedSig, ...signatures];
-    }
-
-    handleUpdateSignaturesState(updated);
+      if (exists) {
+        updated = prev.map(s => s.id === savedSig.id ? savedSig : s);
+      } else {
+        updated = [savedSig, ...prev];
+      }
+      setStoredSignatures(updated);
+      return updated;
+    });
   };
 
-  const handleViewChange = (view: ActiveView) => {
-    if (view === 'landing') navigate('/');
-    else navigate(`/${view}`);
+  const handleViewChange = (view: string, state?: any) => {
+    if (view === 'landing') navigate('/', { state });
+    else navigate(`/${view}`, { state });
     setMobileMenuOpen(false);
     document.body.style.overflow = '';
     window.scrollTo(0, 0);
@@ -82,6 +82,26 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0a0a0f] text-[#f0f0f5] font-sans antialiased selection:bg-[#b04090]/20 selection:text-[#b04090] border-8 border-[#111118]">
+      <Toaster 
+        position="bottom-center"
+        toastOptions={{
+          style: {
+            background: '#111118',
+            color: '#fff',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            fontSize: '12px',
+            fontFamily: 'monospace',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em'
+          },
+          success: {
+            iconTheme: {
+              primary: '#b04090',
+              secondary: '#fff',
+            },
+          },
+        }}
+      />
       
       {/* XERO STYLE NAVIGATION BAR */}
       <nav className="xero-nav sticky top-0 bg-[#0a0a0f]/95 backdrop-blur-md" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', marginBottom: 0, paddingBottom: 16 }}>
@@ -121,24 +141,24 @@ export default function App() {
                 <LandingPage onNavigate={handleViewChange} />
               </motion.div>
             } />
-            <Route path="/dashboard" element={
-              <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} transition={{ duration: 0.25 }}>
-                <Dashboard signatures={signatures} onEdit={handleEditSignatureLaunch} onDelete={handleDeleteSignature} onNavigate={handleViewChange} />
-              </motion.div>
-            } />
             <Route path="/templates" element={
               <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} transition={{ duration: 0.25 }}>
                 <TemplatePicker onSelect={handleSelectTemplate} onNavigate={handleViewChange} />
               </motion.div>
             } />
-            <Route path="/editor" element={
+            <Route path="/editor/:id" element={
               <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} transition={{ duration: 0.25 }}>
-                <SignatureEditor initialSignature={selectedSignatureForEdit} selectedTemplateId={selectedTemplateId} onSave={handleSaveSignature} onNavigate={handleViewChange} />
+                <SignatureEditor signatures={signatures} onSave={handleSaveSignature} onNavigate={handleViewChange} />
+              </motion.div>
+            } />
+            <Route path="/editor/new" element={
+              <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} transition={{ duration: 0.25 }}>
+                <SignatureEditor signatures={signatures} onSave={handleSaveSignature} onNavigate={handleViewChange} />
               </motion.div>
             } />
             <Route path="/install-steps" element={
               <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} transition={{ duration: 0.25 }}>
-                <InstallSteps signatures={signatures} />
+                <InstallSteps signatures={signatures} onEdit={handleEditSignatureLaunch} onDelete={handleDeleteSignature} />
               </motion.div>
             } />
           </Routes>
@@ -167,7 +187,7 @@ export default function App() {
           <div className="space-y-3.5">
             <h4 className="text-xs font-mono uppercase tracking-wider font-bold text-white">Application</h4>
             <div className="flex flex-col gap-2 text-xs">
-              <button onClick={() => handleViewChange('dashboard')} className="hover:text-white text-left transition-colors">Workspace Repository</button>
+              <button onClick={() => handleViewChange('install-steps')} className="hover:text-white text-left transition-colors">Saved Signatures</button>
               <button onClick={() => handleViewChange('templates')} className="hover:text-white text-left transition-colors">Format templates</button>
             </div>
           </div>

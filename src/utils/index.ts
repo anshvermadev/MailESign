@@ -202,15 +202,15 @@ export function generateSignatureHTML(sig: Signature): string {
       <div style="font-size: 16px; font-weight: bold; color: #1a1c1c; margin-bottom: 2px;">${sig.fullName}</div>
       <div style="font-size: 12px; color: #5f5e5e;">${sig.jobTitle} &bull; ${sig.companyName}</div>
       <div style="font-size: 11px; color: #656464; margin-top: 6px;">
-        <span>${sig.phone}</span> | <span>${sig.email}</span>
+        <span>${sig.phone}</span> | <span><a href="mailto:${sig.email}" style="color: #656464; text-decoration: none;">${sig.email}</a></span> | <span><a href="${formatUrl(sig.website)}" style="color: #656464; text-decoration: none;">${sig.website}</a></span>
       </div>
     </td>
     <td valign="bottom" align="right" style="padding-left: 16px; width: 140px;">
       <div style="font-size: 11px; font-family: monospace; color: #5f5e5e; margin-bottom: 4px;">CONNECT:</div>
       <div>
-        ${sig.socials.linkedin ? `<a href="https://${sig.socials.linkedin}" style="display:inline-block; margin-left: 6px; text-decoration:none; color:#000000; font-weight:bold; font-size:12px;">LN</a>` : ''}
-        ${sig.socials.twitter ? `<a href="https://${sig.socials.twitter}" style="display:inline-block; margin-left: 6px; text-decoration:none; color:#000000; font-weight:bold; font-size:12px;">TW</a>` : ''}
-        ${sig.socials.instagram ? `<a href="https://${sig.socials.instagram}" style="display:inline-block; margin-left: 6px; text-decoration:none; color:#000000; font-weight:bold; font-size:12px;">IG</a>` : ''}
+        ${sig.socials.linkedin ? `<a href="${formatUrl(sig.socials.linkedin)}" style="display:inline-block; margin-left: 4px; text-decoration:none;"><img src="https://img.icons8.com/color/48/000000/linkedin.png" width="24" alt="LinkedIn" style="border-radius: 4px; display: block;"></a>` : ''}
+        ${sig.socials.twitter ? `<a href="${formatUrl(sig.socials.twitter)}" style="display:inline-block; margin-left: 4px; text-decoration:none;"><img src="https://img.icons8.com/color/48/000000/twitter--v1.png" width="24" alt="Twitter" style="border-radius: 4px; display: block;"></a>` : ''}
+        ${sig.socials.instagram ? `<a href="${formatUrl(sig.socials.instagram)}" style="display:inline-block; margin-left: 4px; text-decoration:none;"><img src="https://img.icons8.com/color/48/000000/instagram-new--v1.png" width="24" alt="Instagram" style="border-radius: 4px; display: block;"></a>` : ''}
       </div>
     </td>
   </tr>

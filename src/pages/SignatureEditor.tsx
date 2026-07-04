@@ -5,18 +5,26 @@ import { Signature, TemplateType } from '../types';
 import { generateSignatureHTML, copyHtmlToClipboard } from '../utils';
 import Cropper from 'react-easy-crop';
 import getCroppedImg from '../utils/crop';
+import { useParams, useSearchParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 interface SignatureEditorProps {
-  initialSignature?: Signature | null;
-  selectedTemplateId?: TemplateType | null;
+  signatures: Signature[];
   onSave: (sig: Signature) => void;
-  onNavigate: (view: string) => void;
+  onNavigate: (view: string, state?: any) => void;
 }
 
-export default function SignatureEditor({ initialSignature, selectedTemplateId, onSave, onNavigate }: SignatureEditorProps) {
+export default function SignatureEditor({ signatures, onSave, onNavigate }: SignatureEditorProps) {
+  const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
+  const selectedTemplateId = searchParams.get('template') as TemplateType | null;
+
   // Local editable signature state
   const [sig, setSig] = useState<Signature>(() => {
-    if (initialSignature) return { ...initialSignature };
+    if (id && id !== 'new') {
+      const existing = signatures.find(s => s.id === id);
+      if (existing) return { ...existing };
+    }
 
     try {
       const draft = localStorage.getItem('signature_editor_draft');
@@ -62,13 +70,6 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
 
-  // Load signature properties if we are in Edit mode
-  useEffect(() => {
-    if (initialSignature) {
-      setSig({ ...initialSignature });
-    }
-  }, [initialSignature]);
-
   // Auto-save to localStorage to prevent data loss on reload
   useEffect(() => {
     localStorage.setItem('signature_editor_draft', JSON.stringify(sig));
@@ -95,6 +96,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
     const html = generateSignatureHTML(sig);
     await copyHtmlToClipboard(html);
     setCopied(true);
+    toast.success('HTML Code Copied!');
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -105,10 +107,11 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
       updatedAt: new Date().toISOString().split('T')[0],
     });
     setSaveSuccess(true);
+    toast.success('Signature Saved!');
     localStorage.removeItem('signature_editor_draft');
     setTimeout(() => {
       setSaveSuccess(false);
-      onNavigate('dashboard');
+      onNavigate('install-steps', { selectedSignatureId: sig.id });
     }, 1500);
   };
 
@@ -117,7 +120,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
 
     // 1MB limit check
     if (file.size > 1 * 1024 * 1024) {
-      alert('File size exceeds 1MB. Please choose a smaller image.');
+      toast.error('File size exceeds 1MB. Please choose a smaller image.');
       return;
     }
 
@@ -152,11 +155,11 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
         handleFieldChange('logoUrl', data.data.url);
         setSelectedImage(null); // Close crop modal
       } else {
-        alert('Image upload failed: ' + (data.error?.message || 'Unknown error. Did you configure your API key?'));
+        toast.error('Image upload failed: ' + (data.error?.message || 'Unknown error.'));
       }
     } catch (error) {
       console.error('Upload error:', error);
-      alert('Image upload failed. Check console for details.');
+      toast.error('Image upload failed. Check console for details.');
     } finally {
       setIsUploading(false);
     }
@@ -184,7 +187,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
           <div className="flex items-center gap-3">
             <button
               id="editor-btn-back"
-              onClick={() => onNavigate('dashboard')}
+              onClick={() => onNavigate('templates')}
               className="p-2 border border-white/10 bg-[#111118] hover:bg-white/5 rounded-2xl transition-all text-white/60 hover:text-white"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -194,7 +197,7 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
                 FORMAT: {sig.templateId.replace('-', ' ')}
               </div>
               <h1 className="text-2xl font-sans font-black uppercase text-white tracking-tight">
-                {initialSignature ? 'MODIFY FOOTER' : 'CONFIGURE FOOTER'}
+                {(id && id !== 'new') ? 'MODIFY FOOTER' : 'CONFIGURE FOOTER'}
               </h1>
             </div>
           </div>
@@ -204,9 +207,8 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
 
         {/* Success Alert Banner */}
         {saveSuccess && (
-          <div className="bg-green-950/20 border border-green-900/50 text-green-400 text-xs rounded-2xl p-4 flex items-center gap-2">
-            <Check className="w-4 h-4 text-green-400 font-bold" />
-            <span>Success! The email signature profile was securely synchronized to your local repository. Navigating to Dashboard...</span>
+          <div className="hidden">
+            {/* Banner replaced by Toast notification */}
           </div>
         )}
 
@@ -336,134 +338,143 @@ export default function SignatureEditor({ initialSignature, selectedTemplateId, 
               </div>
 
               {/* Social Channels Details */}
-              <div className="pt-4 border-t border-dashed border-white/10 space-y-3">
-                <label className="text-[10px] font-mono text-white/40 uppercase block">Social Channels (Optional)</label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono text-white/40 w-12 text-right">LinkedIn:</span>
-                    <input
-                      id="editor-social-linkedin"
-                      type="text"
-                      placeholder="linkedin.com/..."
-                      value={sig.socials.linkedin || ''}
-                      onChange={(e) => handleSocialChange('linkedin', e.target.value)}
-                      className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none"
-                    />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono text-white/40 w-12 text-right">Twitter:</span>
-                    <input
-                      id="editor-social-twitter"
-                      type="text"
-                      placeholder="twitter.com/..."
-                      value={sig.socials.twitter || ''}
-                      onChange={(e) => handleSocialChange('twitter', e.target.value)}
-                      className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none"
-                    />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono text-white/40 w-12 text-right">Instagram:</span>
-                    <input
-                      id="editor-social-instagram"
-                      type="text"
-                      placeholder="instagram.com/..."
-                      value={sig.socials.instagram || ''}
-                      onChange={(e) => handleSocialChange('instagram', e.target.value)}
-                      className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none"
-                    />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono text-white/40 w-12 text-right">Facebook:</span>
-                    <input
-                      id="editor-social-facebook"
-                      type="text"
-                      placeholder="facebook.com/..."
-                      value={sig.socials.facebook || ''}
-                      onChange={(e) => handleSocialChange('facebook', e.target.value)}
-                      className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none"
-                    />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono text-white/40 w-12 text-right">YouTube:</span>
-                    <input
-                      id="editor-social-youtube"
-                      type="text"
-                      placeholder="youtube.com/..."
-                      value={sig.socials.youtube || ''}
-                      onChange={(e) => handleSocialChange('youtube', e.target.value)}
-                      className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none"
-                    />
-                  </div>
-                  <div className="col-span-1 sm:col-span-2 pt-2">
-                    <div className="flex items-center gap-3 group cursor-pointer w-max" onClick={() => handleFieldChange('animatedIcons', !sig.animatedIcons)}>
-                      <button
-                        type="button"
-                        role="switch"
-                        aria-checked={sig.animatedIcons}
-                        className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-[#b04090] ${
-                          sig.animatedIcons ? 'bg-[#b04090]' : 'bg-white/10'
-                        }`}
-                      >
-                        <span
-                          aria-hidden="true"
-                          className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out ${
-                            sig.animatedIcons ? 'translate-x-4' : 'translate-x-0'
-                          }`}
-                        />
-                      </button>
-                      <span className="text-[10px] font-mono text-white/60 uppercase group-hover:text-white transition-colors">
-                        Use Animated Social Icons (GIFs)
-                      </span>
+              {['executive-modern', 'social-aligned', 'premium-boxed'].includes(sig.templateId) && (
+                <div className="pt-4 border-t border-dashed border-white/10 space-y-3">
+                  <label className="text-[10px] font-mono text-white/40 uppercase block">Social Channels (Optional)</label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono text-white/40 w-12 text-right">LinkedIn:</span>
+                      <input
+                        id="editor-social-linkedin"
+                        type="text"
+                        placeholder="linkedin.com/..."
+                        value={sig.socials.linkedin || ''}
+                        onChange={(e) => handleSocialChange('linkedin', e.target.value)}
+                        className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none"
+                      />
                     </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono text-white/40 w-12 text-right">Twitter:</span>
+                      <input
+                        id="editor-social-twitter"
+                        type="text"
+                        placeholder="twitter.com/..."
+                        value={sig.socials.twitter || ''}
+                        onChange={(e) => handleSocialChange('twitter', e.target.value)}
+                        className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none"
+                      />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono text-white/40 w-12 text-right">Instagram:</span>
+                      <input
+                        id="editor-social-instagram"
+                        type="text"
+                        placeholder="instagram.com/..."
+                        value={sig.socials.instagram || ''}
+                        onChange={(e) => handleSocialChange('instagram', e.target.value)}
+                        className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none"
+                      />
+                    </div>
+                    
+                    {sig.templateId === 'premium-boxed' && (
+                      <>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-mono text-white/40 w-12 text-right">Facebook:</span>
+                          <input
+                            id="editor-social-facebook"
+                            type="text"
+                            placeholder="facebook.com/..."
+                            value={sig.socials.facebook || ''}
+                            onChange={(e) => handleSocialChange('facebook', e.target.value)}
+                            className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none"
+                          />
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-mono text-white/40 w-12 text-right">YouTube:</span>
+                          <input
+                            id="editor-social-youtube"
+                            type="text"
+                            placeholder="youtube.com/..."
+                            value={sig.socials.youtube || ''}
+                            onChange={(e) => handleSocialChange('youtube', e.target.value)}
+                            className="flex-1 px-2.5 py-1.5 border border-white/10 text-xs rounded-2xl bg-[#0a0a0f] text-white focus:bg-[#111118] focus:outline-none"
+                          />
+                        </div>
+                        <div className="col-span-1 sm:col-span-2 pt-2">
+                          <div className="flex items-center gap-3 group cursor-pointer w-max" onClick={() => handleFieldChange('animatedIcons', !sig.animatedIcons)}>
+                            <button
+                              type="button"
+                              role="switch"
+                              aria-checked={sig.animatedIcons}
+                              className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-[#b04090] ${
+                                sig.animatedIcons ? 'bg-[#b04090]' : 'bg-white/10'
+                              }`}
+                            >
+                              <span
+                                aria-hidden="true"
+                                className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out ${
+                                  sig.animatedIcons ? 'translate-x-4' : 'translate-x-0'
+                                }`}
+                              />
+                            </button>
+                            <span className="text-[10px] font-mono text-white/60 uppercase group-hover:text-white transition-colors">
+                              Use Animated Social Icons (GIFs)
+                            </span>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Section 3: Brand Assets */}
-            <div className="space-y-5">
-              <h3 className="text-xs font-mono text-[#b04090] uppercase tracking-widest font-bold">Brand Assets</h3>
+            {['executive-modern', 'editorial-portrait', 'premium-boxed'].includes(sig.templateId) && (
+              <div className="space-y-5">
+                <h3 className="text-xs font-mono text-[#b04090] uppercase tracking-widest font-bold">Brand Assets</h3>
 
-              {/* Logo / Avatar Asset upload block */}
-              <div className="space-y-3">
-                <label className="text-[10px] font-mono text-white/40 uppercase block">Profile Image / Corporate Logo</label>
-                
-                {/* Drag and Drop Zone */}
-                <label
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={handleLogoDrop}
-                  className="border-2 border-dashed border-white/10 rounded-2xl p-5 text-center bg-[#0a0a0f] hover:bg-white/5 transition-all cursor-pointer relative block"
-                >
-                  <input type="file" accept="image/*" className="hidden" onChange={handleFileInputChange} disabled={isUploading} />
-                  <div className="flex flex-col items-center gap-1.5">
-                    {isUploading ? (
-                      <div className="w-6 h-6 border-2 border-[#b04090] border-t-transparent rounded-full animate-spin"></div>
-                    ) : (
-                      <Image className="w-6 h-6 text-[#b04090]/60" />
-                    )}
-                    <div className="text-xs font-black uppercase tracking-wider text-white">
-                      {isUploading ? 'Uploading...' : 'Drag and drop or click to upload'}
+                {/* Logo / Avatar Asset upload block */}
+                <div className="space-y-3">
+                  <label className="text-[10px] font-mono text-white/40 uppercase block">Profile Image / Corporate Logo</label>
+                  
+                  {/* Drag and Drop Zone */}
+                  <label
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={handleLogoDrop}
+                    className="border-2 border-dashed border-white/10 rounded-2xl p-5 text-center bg-[#0a0a0f] hover:bg-white/5 transition-all cursor-pointer relative block"
+                  >
+                    <input type="file" accept="image/*" className="hidden" onChange={handleFileInputChange} disabled={isUploading} />
+                    <div className="flex flex-col items-center gap-1.5">
+                      {isUploading ? (
+                        <div className="w-6 h-6 border-2 border-[#b04090] border-t-transparent rounded-full animate-spin"></div>
+                      ) : (
+                        <Image className="w-6 h-6 text-[#b04090]/60" />
+                      )}
+                      <div className="text-xs font-black uppercase tracking-wider text-white">
+                        {isUploading ? 'Uploading...' : 'Drag and drop or click to upload'}
+                      </div>
+                      <div className="text-[10px] text-white/40 font-light">Supports PNG, JPG, or SVG via ImgBB (Max 1MB).</div>
                     </div>
-                    <div className="text-[10px] text-white/40 font-light">Supports PNG, JPG, or SVG via ImgBB (Max 1MB).</div>
-                  </div>
-                </label>
+                  </label>
 
-                {/* Remove Photo Button */}
-                {sig.logoUrl && (
-                  <div className="pt-2">
-                    <button
-                      type="button"
-                      onClick={() => handleFieldChange('logoUrl', '')}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#111118] hover:bg-white/5 border border-white/10 text-white/60 hover:text-[#b04090] text-xs font-bold uppercase tracking-widest rounded-2xl transition-all"
-                    >
-                      <X className="w-3.5 h-3.5" />
-                      <span>Remove Photo</span>
-                    </button>
-                  </div>
-                )}
+                  {/* Remove Photo Button */}
+                  {sig.logoUrl && (
+                    <div className="pt-2">
+                      <button
+                        type="button"
+                        onClick={() => handleFieldChange('logoUrl', '')}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#111118] hover:bg-white/5 border border-white/10 text-white/60 hover:text-[#b04090] text-xs font-bold uppercase tracking-widest rounded-2xl transition-all"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                        <span>Remove Photo</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+
               </div>
-
-            </div>
+            )}
 
             <button type="submit" className="hidden" />
           </form>
