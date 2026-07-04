@@ -6,7 +6,7 @@ import { generateSignatureHTML, copyHtmlToClipboard } from '../utils';
 import Cropper from 'react-easy-crop';
 import getCroppedImg from '../utils/crop';
 import { useParams, useSearchParams } from 'react-router-dom';
-import toast from 'react-hot-toast';
+import { customToast as toast } from '../utils/toast';
 
 interface SignatureEditorProps {
   signatures: Signature[];

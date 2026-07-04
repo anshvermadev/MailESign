@@ -83,13 +83,15 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-[#0a0a0f] text-[#f0f0f5] font-sans antialiased selection:bg-[#b04090]/20 selection:text-[#b04090] border-8 border-[#111118]">
       <Toaster 
-        position="bottom-center"
+        position="top-right"
         toastOptions={{
+          duration: 3000,
           style: {
             background: '#111118',
             color: '#fff',
             border: '1px solid rgba(255, 255, 255, 0.1)',
-            fontSize: '12px',
+            fontSize: '14px',
+            padding: '16px 24px',
             fontFamily: 'monospace',
             textTransform: 'uppercase',
             letterSpacing: '0.05em'

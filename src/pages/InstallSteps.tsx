@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useLocation } from 'react-router-dom';
 import { Mail, Check, Copy, AlertCircle, Info, Settings, Layout, ExternalLink, HelpCircle, ChevronDown, Edit3, Trash2 } from 'lucide-react';
-import { FaMicrosoft, FaGlobe, FaApple } from 'react-icons/fa';
+import { FaMicrosoft, FaGlobe, FaApple, FaYahoo } from 'react-icons/fa';
 import { BiLogoGmail } from 'react-icons/bi';
 import { Signature } from '../types';
 import { generateSignatureHTML, copyHtmlToClipboard } from '../utils';
 import SignaturePreview from '../components/SignaturePreview';
-import toast from 'react-hot-toast';
+import { customToast as toast } from '../utils/toast';
 
 interface InstallStepsProps {
   signatures: Signature[];
@@ -15,7 +15,7 @@ interface InstallStepsProps {
   onDelete?: (id: string) => void;
 }
 
-type ClientType = 'gmail' | 'outlook-desktop' | 'outlook-web' | 'apple';
+type ClientType = 'gmail' | 'outlook-desktop' | 'outlook-web' | 'apple' | 'yahoo';
 
 export default function InstallSteps({ signatures, onEdit, onDelete }: InstallStepsProps) {
   const location = useLocation();
@@ -55,6 +55,7 @@ export default function InstallSteps({ signatures, onEdit, onDelete }: InstallSt
     { id: 'outlook-desktop', name: 'Outlook Desktop', icon: <FaMicrosoft size={16} /> },
     { id: 'outlook-web', name: 'Outlook Web', icon: <FaGlobe size={16} /> },
     { id: 'apple', name: 'Apple Mail', icon: <FaApple size={16} /> },
+    { id: 'yahoo', name: 'Yahoo', icon: <FaYahoo size={16} /> }
   ];
 
   return (
@@ -163,8 +164,8 @@ export default function InstallSteps({ signatures, onEdit, onDelete }: InstallSt
                       </>
                     ) : (
                       <>
-                        <Layout className="w-4 h-4 text-black" />
-                        <span>Copy Styled Signature (Gmail/Outlook)</span>
+                        <Copy className="w-5 h-5 text-black flex-shrink-0" />
+                        <span className="text-center leading-tight">Copy Styled Signature</span>
                       </>
                     )}
                   </button>
@@ -289,6 +290,23 @@ export default function InstallSteps({ signatures, onEdit, onDelete }: InstallSt
                       <li>Go to <strong className="text-white font-bold">Mail</strong> &gt; <strong className="text-white font-bold">Settings</strong> (or <strong className="text-white font-bold">Preferences</strong>), and select <strong className="text-white font-bold">Signatures</strong>.</li>
                       <li>Click <strong className="text-white font-bold">+</strong> to add a signature, then deselect <strong className="text-white font-bold">"Always match my default message font"</strong>.</li>
                       <li>Paste inside the edit box. If image blocks look placeholder-sized, they will load securely once outbound emails are dispatched!</li>
+                    </ol>
+                  </div>
+                )}
+
+                {activeClient === 'yahoo' && (
+                  <div className="space-y-4 font-sans text-sm text-white/60">
+                    <h3 className="font-black text-white uppercase tracking-wider text-xs flex items-center gap-1.5">
+                      <Settings className="w-4 h-4 text-[#b04090]" />
+                      <span>Yahoo Mail Steps</span>
+                    </h3>
+                    
+                    <ol className="list-decimal list-inside space-y-3 pl-1 leading-relaxed text-xs">
+                      <li>Click the <strong className="text-white font-bold">Copy Styled Signature</strong> button on the left panel.</li>
+                      <li>In Yahoo Mail, click the <strong className="text-white font-bold">Settings (gear icon)</strong> on the top right, then click <strong className="text-white font-bold">More Settings</strong>.</li>
+                      <li>Select <strong className="text-white font-bold">Writing email</strong> from the left-hand menu.</li>
+                      <li>Locate the <strong className="text-white font-bold">Signature</strong> section and toggle it on for your email address.</li>
+                      <li>Paste using <kbd className="bg-[#0a0a0f] border border-white/10 px-1 py-0.5 rounded-2xl text-[10px] font-mono font-bold text-white">Ctrl + V</kbd> (or Cmd + V). It saves automatically.</li>
                     </ol>
                   </div>
                 )}
