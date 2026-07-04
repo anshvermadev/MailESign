@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useLocation } from 'react-router-dom';
 import { Mail, Check, Copy, AlertCircle, Info, Settings, Layout, ExternalLink, HelpCircle, ChevronDown, Edit3, Trash2 } from 'lucide-react';
-import { FaEnvelope, FaMicrosoft, FaGlobe, FaApple } from 'react-icons/fa';
+import { FaMicrosoft, FaGlobe, FaApple } from 'react-icons/fa';
+import { BiLogoGmail } from 'react-icons/bi';
 import { Signature } from '../types';
 import { generateSignatureHTML, copyHtmlToClipboard } from '../utils';
 import SignaturePreview from '../components/SignaturePreview';
@@ -50,7 +51,7 @@ export default function InstallSteps({ signatures, onEdit, onDelete }: InstallSt
   };
 
   const clients = [
-    { id: 'gmail', name: 'Gmail', icon: <FaEnvelope size={16} /> },
+    { id: 'gmail', name: 'Gmail', icon: <BiLogoGmail size={16} /> },
     { id: 'outlook-desktop', name: 'Outlook Desktop', icon: <FaMicrosoft size={16} /> },
     { id: 'outlook-web', name: 'Outlook Web', icon: <FaGlobe size={16} /> },
     { id: 'apple', name: 'Apple Mail', icon: <FaApple size={16} /> },

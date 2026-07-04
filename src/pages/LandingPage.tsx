@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaEnvelope, FaMicrosoft, FaApple, FaYahoo } from 'react-icons/fa';
+import { FaMicrosoft, FaApple, FaYahoo } from 'react-icons/fa';
+import { BiLogoGmail } from 'react-icons/bi';
 
 export default function LandingPage({ onNavigate }: { onNavigate?: (view: string) => void }) {
   // Refs for the animation
@@ -203,7 +204,7 @@ export default function LandingPage({ onNavigate }: { onNavigate?: (view: string
         <p className="text-[10px] font-mono tracking-[0.2em] text-white/40 uppercase mb-2">Supported Mail Clients</p>
         <div className="brands !pt-4 !mt-0 !border-t-0">
           <div className="brand-item">
-            <FaEnvelope size={18} />
+            <BiLogoGmail size={18} />
             Gmail
           </div>
 
