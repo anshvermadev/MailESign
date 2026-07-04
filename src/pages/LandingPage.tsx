@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { FaEnvelope, FaMicrosoft, FaApple, FaYahoo } from 'react-icons/fa';
 
 export default function LandingPage({ onNavigate }: { onNavigate?: (view: string) => void }) {
   // Refs for the animation
@@ -197,52 +198,29 @@ export default function LandingPage({ onNavigate }: { onNavigate?: (view: string
         </div>
       </section>
 
-      {/* BRANDS ROW */}
-      <div className="brands">
-        <div className="brand-item">
-          <svg viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="10" fill="currentColor" />
-            <path fill="var(--bg)" d="M8 9h8v2H8zm0 4h6v2H8z" />
-          </svg>
-          Expedia
-        </div>
+      {/* SUPPORTED CLIENTS ROW */}
+      <div className="text-center w-full mt-10">
+        <p className="text-[10px] font-mono tracking-[0.2em] text-white/40 uppercase mb-2">Supported Mail Clients</p>
+        <div className="brands !pt-4 !mt-0 !border-t-0">
+          <div className="brand-item">
+            <FaEnvelope size={18} />
+            Gmail
+          </div>
 
-        <div className="brand-item">
-          <svg viewBox="0 0 24 24">
-            <circle cx="12" cy="7" r="4" fill="currentColor" />
-            <circle cx="5" cy="16" r="3.5" fill="currentColor" />
-            <circle cx="19" cy="16" r="3.5" fill="currentColor" />
-          </svg>
-          asana
-        </div>
+          <div className="brand-item">
+            <FaMicrosoft size={18} />
+            Outlook
+          </div>
 
-        <div className="brand-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <polyline points="4 8 20 8" />
-            <polyline points="8 12 16 12" />
-            <polyline points="4 16 20 16" />
-          </svg>
-          zenefits
-        </div>
+          <div className="brand-item">
+            <FaApple size={20} />
+            Apple Mail
+          </div>
 
-        <div className="brand-item">
-          <svg viewBox="0 0 24 24">
-            <circle cx="15.5" cy="8.5" r="2.5" fill="currentColor" />
-            <circle cx="8.5" cy="8.5" r="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
-            <path d="M10 8.5 L13 8.5 M8.5 10.5 L8.5 14" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-          HubSp<span className="hubspot-dot"></span>t
-        </div>
-
-        <div className="brand-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <circle cx="12" cy="12" r="9" />
-            <line x1="12" y1="3" x2="12" y2="21" />
-            <line x1="3" y1="12" x2="21" y2="12" />
-            <line x1="5.6" y1="5.6" x2="18.4" y2="18.4" />
-            <line x1="18.4" y1="5.6" x2="5.6" y2="18.4" />
-          </svg>
-          loom
+          <div className="brand-item">
+            <FaYahoo size={18} />
+            Yahoo
+          </div>
         </div>
       </div>
 
