@@ -1,6 +1,5 @@
 <div align="center">
   <div style="background-color: #b04090; color: white; display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 20px; font-size: 32px; font-weight: 900; font-family: monospace; margin-bottom: 20px;">
-    M
   </div>
 
   # MailESign
