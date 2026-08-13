@@ -97,3 +97,13 @@ In the project directory, you can run:
 - `npm run preview` - Boots up a local static web server to preview the production build.
 - `npm run lint` - Executes TypeScript's compiler in no-emit mode to check for type errors.
 - `npm run clean` - Removes the `dist` folder and server-side artifacts.
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](#) if you want to contribute.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
