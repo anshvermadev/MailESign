@@ -28,3 +28,12 @@ Whether you need a sleek corporate layout or a modern creative signature, MailES
 - 💾 **Local Persistence:** Signatures are securely stored right in your browser. No databases, no tracking. Come back anytime to edit.
 - 📱 **Fluid & Responsive UI:** Featuring stunning dark-mode aesthetics, slick transitions via `motion`, and real-time toast notifications.
 - 📧 **Cross-Client Compatibility:** Guaranteed to render perfectly on **Gmail, Outlook, Apple Mail, and Thunderbird**.
+
+## 🚀 Getting Started
+
+Follow these steps to set up the project locally on your machine.
+
+### Prerequisites
+
+- Node.js (v18.0.0 or higher recommended)
+- npm or yarn
