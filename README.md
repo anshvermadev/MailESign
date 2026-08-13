@@ -19,3 +19,12 @@
 **MailESign** is a cutting-edge web application tailored for professionals and businesses to effortlessly create, manage, and install beautiful email signatures. Built on a modern tech stack, MailESign ensures your signatures look perfect across all standard email clients by outputting certified, inline HTML code. 
 
 Whether you need a sleek corporate layout or a modern creative signature, MailESign has you covered.
+
+## ✨ Key Features
+
+- 🎨 **Professional Templates:** A curated library of layouts suited for diverse professional roles.
+- ✏️ **Rich WYSIWYG Editor:** Real-time signature preview and editing, complete with custom image cropping via `react-easy-crop`.
+- 🤖 **AI-Powered Enhancements:** Integrated with `@google/genai` to smartly generate engaging profile bios or refine signature details.
+- 💾 **Local Persistence:** Signatures are securely stored right in your browser. No databases, no tracking. Come back anytime to edit.
+- 📱 **Fluid & Responsive UI:** Featuring stunning dark-mode aesthetics, slick transitions via `motion`, and real-time toast notifications.
+- 📧 **Cross-Client Compatibility:** Guaranteed to render perfectly on **Gmail, Outlook, Apple Mail, and Thunderbird**.
