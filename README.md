@@ -75,3 +75,15 @@ MailESign leverages best-in-class tools for a robust, fast, and scalable fronten
 | **Motion** | Fluid, physics-based UI animations and page transitions |
 | **React Router** | Client-side routing with nested routes support |
 | **Lucide React** | Beautiful, consistent open-source iconography |
+
+### 📂 Directory Structure
+
+```text
+src/
+├── components/      # Modular UI blocks (Buttons, Inputs, SignaturePreview)
+├── pages/           # High-level route views (Editor, Dashboard, Templates)
+├── types/           # Strict TypeScript interfaces representing domain models
+├── utils/           # Helper functions (Storage, parsers, validators)
+├── App.tsx          # Root application and route configuration
+└── index.css        # Tailwind directives and global CSS overrides
+```
