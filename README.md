@@ -13,3 +13,9 @@
   
   ---
 </div>
+
+## 📖 Overview
+
+**MailESign** is a cutting-edge web application tailored for professionals and businesses to effortlessly create, manage, and install beautiful email signatures. Built on a modern tech stack, MailESign ensures your signatures look perfect across all standard email clients by outputting certified, inline HTML code. 
+
+Whether you need a sleek corporate layout or a modern creative signature, MailESign has you covered.
