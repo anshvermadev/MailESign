@@ -37,3 +37,28 @@ Follow these steps to set up the project locally on your machine.
 
 - Node.js (v18.0.0 or higher recommended)
 - npm or yarn
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-username/MailESign.git
+   cd MailESign
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Configure Environment:**
+   Copy the example environment file and add your Google GenAI API key to unlock AI features.
+   ```bash
+   cp .env.example .env
+   ```
+
+4. **Launch Development Server:**
+   ```bash
+   npm run dev
+   ```
+   > 💡 The app will be running at [http://localhost:3000](http://localhost:3000).
