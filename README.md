@@ -62,3 +62,16 @@ Follow these steps to set up the project locally on your machine.
    npm run dev
    ```
    > 💡 The app will be running at [http://localhost:3000](http://localhost:3000).
+
+## 🛠️ Tech Stack & Architecture
+
+MailESign leverages best-in-class tools for a robust, fast, and scalable frontend architecture:
+
+| Technology | Purpose |
+| ---------- | ------- |
+| **React 19** | Core UI library for component-based architecture |
+| **Vite 6** | Next-generation frontend tooling for lightning-fast builds |
+| **Tailwind CSS 4** | Utility-first CSS framework for rapid UI styling |
+| **Motion** | Fluid, physics-based UI animations and page transitions |
+| **React Router** | Client-side routing with nested routes support |
+| **Lucide React** | Beautiful, consistent open-source iconography |
