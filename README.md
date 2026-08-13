@@ -87,3 +87,13 @@ src/
 ├── App.tsx          # Root application and route configuration
 └── index.css        # Tailwind directives and global CSS overrides
 ```
+
+## 📜 Available Scripts
+
+In the project directory, you can run:
+
+- `npm run dev` - Starts the Vite dev server with Hot Module Replacement (HMR).
+- `npm run build` - Transpiles TypeScript and bundles the app for production in the `dist` folder.
+- `npm run preview` - Boots up a local static web server to preview the production build.
+- `npm run lint` - Executes TypeScript's compiler in no-emit mode to check for type errors.
+- `npm run clean` - Removes the `dist` folder and server-side artifacts.
